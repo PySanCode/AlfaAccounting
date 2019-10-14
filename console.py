@@ -75,6 +75,9 @@ class Asiento():
         elif cuenta in pasivo:
             cuenta_nombre = pasivo.get(cuenta)
 
+            if debe_o_haber == "1": sufijo = "(P+)"
+            else: sufijo = "(P-)"
+
             self.cuentas.append({
                 "cuenta": cuenta,
                 "cuenta_nombre": cuenta_nombre,
@@ -83,11 +86,45 @@ class Asiento():
                 "valor": valor
             })
 
-        self.cuentas.append({
-            "cuenta" : cuenta,
-            "debe_o_haber" : debe_o_haber,
-            "valor": valor
-        })
+        elif cuenta in patrimonio_neto:
+            cuenta_nombre = patrimonio_neto.get(cuenta)
+
+            if debe_o_haber == "1": sufijo = "(P.N+)"
+            else: sufijo = "(P.N-)"
+
+            self.cuentas.append({
+                "cuenta": cuenta,
+                "cuenta_nombre": cuenta_nombre,
+                "tipo": "patrimonio_neto",
+                "debe_o_haber": debe_o_haber,
+                "valor": valor
+            })
+
+        elif cuenta in resultado_negativo:
+            cuenta_nombre = resultado_negativo.get(cuenta)
+
+            sufijo = "(R.N.)"
+
+            self.cuentas.append({
+                "cuenta": cuenta,
+                "cuenta_nombre": cuenta_nombre,
+                "tipo": "resultado_negativo",
+                "debe_o_haber": debe_o_haber,
+                "valor": valor
+            })
+
+        elif cuenta in resultado_positivo:
+            cuenta_nombre = resultado_positivo.get(cuenta)
+
+            sufijo = "(R.P.)"
+
+            self.cuentas.append({
+                "cuenta": cuenta,
+                "cuenta_nombre": cuenta_nombre,
+                "tipo": "resultado_positivo",
+                "debe_o_haber": debe_o_haber,
+                "valor": valor
+            })
 
     def set_fecha(self, fecha):
 
@@ -170,6 +207,11 @@ def display(libro):
 
     for asiento in libro.asientos:
 
+        print("| ", "", " " * (6),
+              "| ", "----------{}----------".format("1"), " " * (40 - 21),
+              "| ", "", " " * (10),
+              "| ", "", " " * (10), "|")
+
         print("| ", asiento.fecha, " " * (6 - len(asiento.fecha)),
               "| ", asiento.cuentas[0].get("display"), " " * (40 - len(asiento.cuentas[0].get("display"))),
               "| ", asiento.cuentas[0].get("valor"), " " * (10 - len((asiento.cuentas[0].get("valor")))),
@@ -177,12 +219,12 @@ def display(libro):
 
         for cuenta in asiento.cuentas:
 
-            if cuenta.get("tipo") == "activo":
+            if cuenta == asiento.cuentas(0): continue
+
+            if cuenta.get("debe_o_haber") == "debe":
                 print("|", asiento.fecha, " " * (6 - len(asiento.fecha)), "| ", asiento.cuentas[0].get("display"),
                       " " * (40 - len(asiento.cuentas[0].get("display"))), "| ", asiento.cuentas[0].get("valor"),
                       " " * (10 - len((asiento.cuentas[0].get("valor")))), "| ", "", " " * (10), "|")
-
-
 
 print("AlfaBOOK Edicion Consola\n"
       "Version 1.0")
