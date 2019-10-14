@@ -168,7 +168,7 @@ def display(libro):
 
     for asiento in libro.asientos:
 
-        print("Fecha"+" "*6-len("fecha") + "| " + "Detalle"+" "*15-len("detalle") + "| " + "Debe"+" "*10-len("debe") + "| " + "Debe"+" "*10-len("haber") + "| ")
+        print("Fecha"," "*(6-len("fecha")),"| ","Detalle"," "*(15-len("detalle")),"| ","Debe"," "*(10-len(("debe"))),"| ","Haber"," "*(10-len("haber")))
 
 print("AlfaBOOK Edicion Consola\n"
       "Version 1.0")
