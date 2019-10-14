@@ -165,10 +165,24 @@ def new():
     display(libro)
 
 def display(libro):
+    print("| ", "Fecha", " " * (6 - len("fecha")), "| ", "Detalle", " " * (40 - len("detalle")), "| ", "Debe",
+    " " * (10 - len(("debe"))), "| ", "Haber", " " * (10 - len("haber")), "|")
 
     for asiento in libro.asientos:
 
-        print("Fecha"," "*(6-len("fecha")),"| ","Detalle"," "*(15-len("detalle")),"| ","Debe"," "*(10-len(("debe"))),"| ","Haber"," "*(10-len("haber")))
+        print("| ", asiento.fecha, " " * (6 - len(asiento.fecha)),
+              "| ", asiento.cuentas[0].get("display"), " " * (40 - len(asiento.cuentas[0].get("display"))),
+              "| ", asiento.cuentas[0].get("valor"), " " * (10 - len((asiento.cuentas[0].get("valor")))),
+              "| ", "", " " * (10), "|")
+
+        for cuenta in asiento.cuentas:
+
+            if cuenta.get("tipo") == "activo":
+                print("|", asiento.fecha, " " * (6 - len(asiento.fecha)), "| ", asiento.cuentas[0].get("display"),
+                      " " * (40 - len(asiento.cuentas[0].get("display"))), "| ", asiento.cuentas[0].get("valor"),
+                      " " * (10 - len((asiento.cuentas[0].get("valor")))), "| ", "", " " * (10), "|")
+
+
 
 print("AlfaBOOK Edicion Consola\n"
       "Version 1.0")
