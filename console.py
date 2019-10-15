@@ -48,6 +48,11 @@ resultado_positivo = {
     "5.05": "Ventas"
 }
 
+valid = ["1.01","1.02","1.03","1.04","1.05","1.06","1.07","1.08","1.09","1.10","1.11","1.12","1.13","1.14",
+         "2.01","2.02","2.03","2.04"
+         "3.01",
+         "4.01","4.02","4.03","4.04","4.05","4.06","4.07","4.08","4.09","4.10","4.11","5.01","5.02","5.03","5.04","5.05"]
+
 segun_dict = {
     "1": "Factura Original",
     "2": "Factura Duplicado",
@@ -169,9 +174,14 @@ def new():
 
     while True:
         asiento = Asiento()
+
         fecha = input("\nFecha:\n> ")
         asiento.set_fecha(fecha)
+
         cuenta = input("\nCuenta:\n> ")
+
+        while cuenta not in valid:
+            cuenta = input("\nCuenta:\n> ")
 
         debe_o_haber = input(
             "\n¿Debe o haber?"
@@ -180,11 +190,46 @@ def new():
             "\n> "
         )
 
+        while debe_o_haber != "1" and debe_o_haber != "2":
+
+            debe_o_haber = input(
+                "\n¿Debe o haber?"
+                "\n1 = Debe"
+                "\n2 = Haber"
+                "\n> "
+            )
+
         if debe_o_haber == "1":
             valor = input("\nValor: \n> ")
 
         elif debe_o_haber == "2":
             valor = input("\nValor: \n> ")
+
+        segun = input(
+            "\n¿Segun?"
+            "\n1 = Factura Original"
+            "\n2 = Factura Duplicado"
+            "\n3 = Recibo Original"
+            "\n4 = Recibo Duplicado"
+            "\n5 = Boleta de Deposito"
+            "\n6 = Ficha de Stock"
+            "\n> "
+        )
+
+        while segun != "1" and segun != "2" and segun != "3" and segun != "4" and segun != "5" and segun != "6":
+
+            segun = input(
+                "\n¿Segun?"
+                "\n1 = Factura Original"
+                "\n2 = Factura Duplicado"
+                "\n3 = Recibo Original"
+                "\n4 = Recibo Duplicado"
+                "\n5 = Boleta de Deposito"
+                "\n6 = Ficha de Stock"
+                "\n> "
+            )
+
+        asiento.set_segun(segun)
 
         asiento.add_cuenta(cuenta,debe_o_haber,valor)
 
@@ -192,9 +237,12 @@ def new():
             "\n¿Que desea hacer?"
             "\n1 = Continuar otra cuenta"
             "\n2 = Continuar con el libro"
-            "\n3 = Parar"
+            "\n3 = Volver a editar" #FALTA EDITAR SOLO UNA CUENTA
+            "\n4 = Parar"
             "\n> "
         )
+
+        if continuar == "3": continue
 
         if continuar == "1":
             while True:
@@ -209,28 +257,40 @@ def new():
 
                 valor = input("\nValor: \n> ")
 
-                segun = input(
-                    "\n¿Segun?"
-                    "\n1 = Factura Original"
-                    "\n2 = Factura Duplicado"
-                    "\n3 = Recibo Original"
-                    "\n4 = Recibo Duplicado"
-                    "\n5 = Boleta de Deposito"
-                    "\n6 = Ficha de Stock"
-                    "\n> "
-                )
-                asiento.set_segun(segun)
-
                 continuar = input(
                     "\n¿Que desea hacer?"
                     "\n1 = Continuar otra cuenta"
                     "\n2 = Continuar con el libro"
-                    "\n3 = Parar"
+                    "\n3 = Volver a editar cuenta"
+                    "\n4 = Editar solo un elemento"
+                    "\n5 = Parar"
                     "\n> "
                 )
 
+                if continuar == "4":
+
+                    editar = input(
+                    "\n¿Que desea editar?"
+                    "\n1 = Cuenta"
+                    "\n2 = Debe o haber"
+                    "\n3 = Valor"
+                    "\n4 = Editar solo un elemento"
+                    "\n5 = Nada"
+                    "\n> "
+                    )
+
+                    if editar == "1":
+
+                        while True:
+                            while cuenta not in valid:
+                                cuenta = input("\nCuenta:\n> ")
+
+                            if input("\n¿Seguro? S/N\n> ").lower == "S": break
+
+                if continuar == "3": continue
+
                 asiento.add_cuenta(cuenta,debe_o_haber,valor)
-                if continuar == "2" or continuar == "3": break
+                if continuar == "2": break
 
         libro.add_asiento(asiento)
         if continuar == "3": break
@@ -288,6 +348,7 @@ def display(libro):
 
 print("AlfaBOOK Edicion Consola\n"
       "Version 1.0")
+print("Escribe 0 para volver si te equivocas")
 
 while True:
 
