@@ -48,11 +48,22 @@ resultado_positivo = {
     "5.05": "Ventas"
 }
 
+segun_dict = {
+    "1": "Factura Original",
+    "2": "Factura Duplicado",
+    "3": "Recibo Original",
+    "4": "Recibo Duplicado",
+    "5": "Boleta de Deposito",
+    "6": "Ficha de Stock"
+}
+
 class Asiento():
 
     def __init__(self):
 
         self.cuentas = []
+        self.segun = ""
+        self.segun_display = ""
 
     def add_cuenta(self, cuenta, debe_o_haber, valor):
 
@@ -82,6 +93,8 @@ class Asiento():
                 "cuenta": cuenta,
                 "cuenta_nombre": cuenta_nombre,
                 "tipo": "pasivo",
+                "sufijo": sufijo,
+                "display": cuenta_nombre + sufijo,
                 "debe_o_haber": debe_o_haber,
                 "valor": valor
             })
@@ -96,6 +109,8 @@ class Asiento():
                 "cuenta": cuenta,
                 "cuenta_nombre": cuenta_nombre,
                 "tipo": "patrimonio_neto",
+                "sufijo": sufijo,
+                "display": cuenta_nombre + sufijo,
                 "debe_o_haber": debe_o_haber,
                 "valor": valor
             })
@@ -109,6 +124,8 @@ class Asiento():
                 "cuenta": cuenta,
                 "cuenta_nombre": cuenta_nombre,
                 "tipo": "resultado_negativo",
+                "sufijo": sufijo,
+                "display": cuenta_nombre + sufijo,
                 "debe_o_haber": debe_o_haber,
                 "valor": valor
             })
@@ -122,6 +139,8 @@ class Asiento():
                 "cuenta": cuenta,
                 "cuenta_nombre": cuenta_nombre,
                 "tipo": "resultado_positivo",
+                "sufijo": sufijo,
+                "display": cuenta_nombre + sufijo,
                 "debe_o_haber": debe_o_haber,
                 "valor": valor
             })
@@ -129,6 +148,11 @@ class Asiento():
     def set_fecha(self, fecha):
 
         self.fecha = fecha
+
+    def set_segun(self, segun):
+
+        self.segun = segun
+        self.segun_display = segun_dict.get(segun)
 
 class Libro_Diario():
 
@@ -148,6 +172,18 @@ def new():
         fecha = input("\nFecha:\n> ")
         asiento.set_fecha(fecha)
         cuenta = input("\nCuenta:\n> ")
+
+        segun = input(
+            "\n¿Segun?"
+            "\n1 = Factura Original"
+            "\n2 = Factura Duplicado"
+            "\n3 = Recibo Original"
+            "\n4 = Recibo Duplicado"
+            "\n5 = Boleta de Deposito"
+            "\n6 = Ficha de Stock"
+            "\n> "
+        )
+        asiento.set_segun(segun)
 
         debe_o_haber = input(
             "\n¿Debe o haber?"
@@ -185,6 +221,7 @@ def new():
 
                 valor = input("\nValor: \n> ")
 
+
                 continuar = input(
                     "\n¿Que desea hacer?"
                     "\n1 = Continuar otra cuenta"
@@ -208,7 +245,7 @@ def display(libro):
     for asiento in libro.asientos:
 
         print("| ", "", " " * (6),
-              "| ", "----------{}----------".format("1"), " " * (40 - 21),
+              "| ", "-------------------{}--------------------".format(libro.asientos.index(asiento)+1), " " * (40 - 40),
               "| ", "", " " * (10),
               "| ", "", " " * (10), "|")
 
@@ -219,28 +256,105 @@ def display(libro):
 
         for cuenta in asiento.cuentas:
 
-            if cuenta == asiento.cuentas(0): continue
+            if cuenta == asiento.cuentas[0]: continue
 
-            if cuenta.get("debe_o_haber") == "debe":
-                print("|", asiento.fecha, " " * (6 - len(asiento.fecha)), "| ", asiento.cuentas[0].get("display"),
-                      " " * (40 - len(asiento.cuentas[0].get("display"))), "| ", asiento.cuentas[0].get("valor"),
-                      " " * (10 - len((asiento.cuentas[0].get("valor")))), "| ", "", " " * (10), "|")
+            if cuenta.get("debe_o_haber") == "1":
+                print("| ", "", " " * (6),
+                      "| ", cuenta.get("display"), " " * (40 - len(cuenta.get("display"))),
+                      "| ", cuenta.get("valor"), " " * (10 - len((cuenta.get("valor")))),
+                      "| ", "", " " * (10), "|")
+
+        for cuenta in asiento.cuentas:
+
+            if cuenta == asiento.cuentas[0]: continue
+
+            if cuenta.get("debe_o_haber") == "2":
+                print("| ", "", " " * (6),
+                      "| ", "    " + cuenta.get("display"), " " * (40 - (len((cuenta.get("display"))) + len("    "))),
+                      "| ", "", " " * (10),
+                      "| ", cuenta.get("valor"), " " * (10 - len((cuenta.get("valor")))), "|")
+
+        if asiento == libro.asientos[0]:
+            print("| ", "", " " * (6),
+                  "| ", "Segun Inventario Inicial", " " * (40 - (len("Segun Inventario Inicial"))),
+                  "| ", "", " " * (10),
+                  "| ", "", " " * (10), "|")
+
+        else:
+
+            print("| ", "", " " * (6),
+                  "| ", asiento.segun_display, " " * (40 - (len(asiento.segun_display))),
+                  "| ", "", " " * (10),
+                  "| ", "", " " * (10), "|")
 
 print("AlfaBOOK Edicion Consola\n"
       "Version 1.0")
 
-while True:
+# while True:
+#
+#     start = input(
+#     "Que desea hacer? \n"
+#     "1 = Nuevo archivo \n"
+#     "2 = Cargar archivo\n"
+#     "> "
+#     )
+#     if start == "1" or start == "2": break
+#
+# if start == "1":
+#     new()
+#
+# if start == "2":
+#     load_previous()
 
-    start = input(
-    "Que desea hacer? \n"
-    "1 = Nuevo archivo \n"
-    "2 = Cargar archivo\n"
-    "> "
-    )
-    if start == "1" or start == "2": break
+libro = Libro_Diario()
+asiento1 = Asiento()
+asiento2 = Asiento()
+asiento3 = Asiento()
 
-if start == "1":
-    new()
+asiento1.add_cuenta("1.01","1","500")
+asiento1.add_cuenta("1.02","1","1000")
+asiento1.add_cuenta("1.03","1","500")
+asiento1.add_cuenta("4.03","2","2000")
+asiento1.set_fecha("05/05")
 
-if start == "2":
-    load_previous()
+asiento2.add_cuenta("1.04","1","1500")
+asiento2.add_cuenta("1.05","1","3000")
+asiento2.add_cuenta("1.06","1","2500")
+asiento2.add_cuenta("1.01","2","5000")
+asiento2.set_fecha("08/05")
+asiento2.set_segun("3")
+
+asiento3.add_cuenta("1.07","1","50")
+asiento3.add_cuenta("1.08","1","1200")
+asiento3.add_cuenta("1.09","1","5050")
+asiento3.add_cuenta("1.10","2","2010")
+asiento3.set_fecha("10/05")
+asiento3.set_segun("4")
+
+libro.add_asiento(asiento1)
+libro.add_asiento(asiento2)
+libro.add_asiento(asiento3)
+
+display(libro)
+
+"""
+
+|  Fecha   |  Detalle                                   |  Debe        |  Haber       |
+|          |  -------------------1--------------------  |              |              |
+|  05/05   |  BANCO "X" Cuenta Corriente(A+)            |  500         |              |
+|          |  Caja(A+)                                  |  1000        |              |
+|          |  Deudores por ventas(A+)                   |  500         |              |
+|          |      Capital(P.N-)                         |              |  2000        |
+|          |  -------------------2--------------------  |              |              |
+|  08/05   |  Documentos a cobrar(A+)                   |  1500        |              |
+|          |  Equipos de computacion(A+)                |  3000        |              |
+|          |  Inmuebles(A+)                             |  2500        |              |
+|          |      BANCO "X" Cuenta Corriente(A-)        |              |  5000        |
+|          |  -------------------3--------------------  |              |              |
+|  10/05   |  Instalaciones(A+)                         |  50          |              |
+|          |  Maquinarias(A+)                           |  1200        |              |
+|          |  Materias primas(A+)                       |  5050        |              |
+|          |      Mercaderias(A-)                       |              |  2010        |
+
+
+"""
