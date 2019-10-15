@@ -290,52 +290,52 @@ def display(libro):
 print("AlfaBOOK Edicion Consola\n"
       "Version 1.0")
 
-# while True:
+while True:
+
+    start = input(
+    "Que desea hacer? \n"
+    "1 = Nuevo archivo \n"
+    "2 = Cargar archivo\n"
+    "> "
+    )
+    if start == "1" or start == "2": break
+
+if start == "1":
+    new()
+
+if start == "2":
+    load_previous()
+
+# libro = Libro_Diario()
+# asiento1 = Asiento()
+# asiento2 = Asiento()
+# asiento3 = Asiento()
 #
-#     start = input(
-#     "Que desea hacer? \n"
-#     "1 = Nuevo archivo \n"
-#     "2 = Cargar archivo\n"
-#     "> "
-#     )
-#     if start == "1" or start == "2": break
+# asiento1.add_cuenta("1.01","1","500")
+# asiento1.add_cuenta("1.02","1","1000")
+# asiento1.add_cuenta("1.03","1","500")
+# asiento1.add_cuenta("4.03","2","2000")
+# asiento1.set_fecha("05/05")
 #
-# if start == "1":
-#     new()
+# asiento2.add_cuenta("1.04","1","1500")
+# asiento2.add_cuenta("1.05","1","3000")
+# asiento2.add_cuenta("1.06","1","2500")
+# asiento2.add_cuenta("1.01","2","5000")
+# asiento2.set_fecha("08/05")
+# asiento2.set_segun("3")
 #
-# if start == "2":
-#     load_previous()
-
-libro = Libro_Diario()
-asiento1 = Asiento()
-asiento2 = Asiento()
-asiento3 = Asiento()
-
-asiento1.add_cuenta("1.01","1","500")
-asiento1.add_cuenta("1.02","1","1000")
-asiento1.add_cuenta("1.03","1","500")
-asiento1.add_cuenta("4.03","2","2000")
-asiento1.set_fecha("05/05")
-
-asiento2.add_cuenta("1.04","1","1500")
-asiento2.add_cuenta("1.05","1","3000")
-asiento2.add_cuenta("1.06","1","2500")
-asiento2.add_cuenta("1.01","2","5000")
-asiento2.set_fecha("08/05")
-asiento2.set_segun("3")
-
-asiento3.add_cuenta("1.07","1","50")
-asiento3.add_cuenta("1.08","1","1200")
-asiento3.add_cuenta("1.09","1","5050")
-asiento3.add_cuenta("1.10","2","2010")
-asiento3.set_fecha("10/05")
-asiento3.set_segun("4")
-
-libro.add_asiento(asiento1)
-libro.add_asiento(asiento2)
-libro.add_asiento(asiento3)
-
-display(libro)
+# asiento3.add_cuenta("1.07","1","50")
+# asiento3.add_cuenta("1.08","1","1200")
+# asiento3.add_cuenta("1.09","1","5050")
+# asiento3.add_cuenta("1.10","2","2010")
+# asiento3.set_fecha("10/05")
+# asiento3.set_segun("4")
+#
+# libro.add_asiento(asiento1)
+# libro.add_asiento(asiento2)
+# libro.add_asiento(asiento3)
+#
+# display(libro)
 
 """
 
