@@ -173,18 +173,6 @@ def new():
         asiento.set_fecha(fecha)
         cuenta = input("\nCuenta:\n> ")
 
-        segun = input(
-            "\n¿Segun?"
-            "\n1 = Factura Original"
-            "\n2 = Factura Duplicado"
-            "\n3 = Recibo Original"
-            "\n4 = Recibo Duplicado"
-            "\n5 = Boleta de Deposito"
-            "\n6 = Ficha de Stock"
-            "\n> "
-        )
-        asiento.set_segun(segun)
-
         debe_o_haber = input(
             "\n¿Debe o haber?"
             "\n1 = Debe"
@@ -221,6 +209,17 @@ def new():
 
                 valor = input("\nValor: \n> ")
 
+                segun = input(
+                    "\n¿Segun?"
+                    "\n1 = Factura Original"
+                    "\n2 = Factura Duplicado"
+                    "\n3 = Recibo Original"
+                    "\n4 = Recibo Duplicado"
+                    "\n5 = Boleta de Deposito"
+                    "\n6 = Ficha de Stock"
+                    "\n> "
+                )
+                asiento.set_segun(segun)
 
                 continuar = input(
                     "\n¿Que desea hacer?"
