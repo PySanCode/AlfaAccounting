@@ -238,9 +238,22 @@ def new():
             "\n1 = Continuar otra cuenta"
             "\n2 = Continuar con el libro"
             "\n3 = Volver a editar" #FALTA EDITAR SOLO UNA CUENTA
-            "\n4 = Parar"
+            "\n4 = Editar solo un elemento"
+            "\n5 = Parar"
             "\n> "
         )
+
+        while continuar != "1" and continuar != "2" and continuar != "3" and continuar != "4" and continuar != "5":
+
+            continuar = input(
+                "\n¿Que desea hacer?"
+                "\n1 = Continuar otra cuenta"
+                "\n2 = Continuar con el libro"
+                "\n3 = Volver a editar"  # FALTA EDITAR SOLO UNA CUENTA
+                "\n4 = Editar solo un elemento"
+                "\n5 = Parar"
+                "\n> "
+            )
 
         if continuar == "3": continue
 
@@ -284,8 +297,21 @@ def new():
                         while True:
                             while cuenta not in valid:
                                 cuenta = input("\nCuenta:\n> ")
+                                if cuenta in valid and input("\n¿Seguro? S/N\n> ").lower == "S": break
 
-                            if input("\n¿Seguro? S/N\n> ").lower == "S": break
+                    if editar == "2":
+
+                        while True:
+
+                            while debe_o_haber != "1" and debe_o_haber != "2":
+
+                                debe_o_haber = input(
+                                    "\n¿Debe o haber?"
+                                    "\n1 = Debe"
+                                    "\n2 = Haber"
+                                    "\n> "
+                                )
+                                if debe_o_haber == "1" or debe_o_haber == "2" and input("\n¿Seguro? S/N\n> ").lower == "S": break
 
                 if continuar == "3": continue
 
@@ -293,7 +319,7 @@ def new():
                 if continuar == "2": break
 
         libro.add_asiento(asiento)
-        if continuar == "3": break
+        if continuar == "5": break
 
     display(libro)
 
@@ -371,10 +397,10 @@ if start == "2":
 # asiento2 = Asiento()
 # asiento3 = Asiento()
 #
-# asiento1.add_cuenta("1.01","1","500")
-# asiento1.add_cuenta("1.02","1","1000")
-# asiento1.add_cuenta("1.03","1","500")
-# asiento1.add_cuenta("4.03","2","2000")
+# asiento1.add_cuenta("1.03","1","5050")
+# asiento1.add_cuenta("1.11","1","1000")
+# asiento1.add_cuenta("1.01","1","1500")
+# asiento1.add_cuenta("4.01","2","2000")
 # asiento1.set_fecha("05/05")
 #
 # asiento2.add_cuenta("1.04","1","1500")
