@@ -1,4 +1,3 @@
-from dateutil.parser import parse
 activo = {
 "1.01": """BANCO "X" Cuenta Corriente""",
 "1.02": "Caja",
