@@ -161,8 +161,7 @@ class Asiento():
 
     def set_fecha(self, fecha):
 
-        self.raw_fecha = fecha
-        self.fecha = "{}/{}/{}".format(raw_fecha.day, raw_fecha.month, raw_fecha.year)
+        self.fecha = fecha
 
     def set_segun(self, segun):
 
@@ -188,11 +187,6 @@ def new():
         else: asiento = Asiento()
 
         fecha = input("\nFecha:\n> ")
-        valid = validate(fecha)
-        if valid: asiento.set_fecha(fecha)
-        while not valid:
-            fecha = input("\nFecha:\n> ")
-            valid = validate(fecha)
 
         cuenta = input("\nCuenta:\n> ")
 
