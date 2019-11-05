@@ -48,10 +48,13 @@ resultado_positivo = {
     "5.05": "Ventas"
 }
 
-valid = ["1.01","1.02","1.03","1.04","1.05","1.06","1.07","1.08","1.09","1.10","1.11","1.12","1.13","1.14",
-         "2.01","2.02","2.03","2.04"
-         "3.01",
-         "4.01","4.02","4.03","4.04","4.05","4.06","4.07","4.08","4.09","4.10","4.11","5.01","5.02","5.03","5.04","5.05"]
+valid = [
+    "1.01","1.02","1.03","1.04","1.05","1.06","1.07","1.08","1.09","1.10","1.11","1.12","1.13","1.14",
+    "2.01","2.02","2.03","2.04",
+    "3.01",
+    "4.01","4.02","4.03","4.04","4.05","4.06","4.07","4.08","4.09","4.10","4.11",
+    "5.01","5.02","5.03","5.04","5.05"
+]
 
 segun_dict = {
     "0": "Inventario Inicial",
@@ -175,6 +178,7 @@ def new():
     libro = Libro_Diario()
     first = True
     modo_asiento = True
+    skip = False
 
     while True:
 
@@ -185,19 +189,12 @@ def new():
             if first: fecha = input("\nFecha:\n> ")
             asiento.set_fecha(fecha)
 
-        cuenta = input("\nCuenta:\n> ")
+        if not skip:
 
-        while cuenta not in valid:
             cuenta = input("\nCuenta:\n> ")
 
-        debe_o_haber = input(
-            "\n¿Debe o haber?"
-            "\n1 = Debe"
-            "\n2 = Haber"
-            "\n> "
-        )
-
-        while debe_o_haber != "1" and debe_o_haber != "2":
+            while cuenta not in valid:
+                cuenta = input("\nCuenta:\n> ")
 
             debe_o_haber = input(
                 "\n¿Debe o haber?"
@@ -206,51 +203,62 @@ def new():
                 "\n> "
             )
 
-        valor = input("\nValor: \n> ")
-        try:
-            valor = int(valor)
-        except:
-            pass
-        while type(valor) != int:
-            valor = input("\nValor:\n> ")
+            while debe_o_haber != "1" and debe_o_haber != "2":
+
+                debe_o_haber = input(
+                    "\n¿Debe o haber?"
+                    "\n1 = Debe"
+                    "\n2 = Haber"
+                    "\n> "
+                )
+
+            valor = input("\nValor: \n> ")
             try:
                 valor = int(valor)
             except:
                 pass
-        valor = str(valor)
+            while type(valor) != int:
+                valor = input("\nValor:\n> ")
+                try:
+                    valor = int(valor)
+                except:
+                    pass
+            valor = str(valor)
 
-        if modo_asiento:
-            if asiento.first:
-                asiento.set_segun("0")
-                first = False
+            if modo_asiento:
+                if asiento.first:
+                    asiento.set_segun("0")
+                    first = False
 
-            else:
-
-                segun = input(
-                "\n¿Segun?"
-                "\n1 = Factura Original"
-                "\n2 = Factura Duplicado"
-                "\n3 = Recibo Original"
-                "\n4 = Recibo Duplicado"
-                "\n5 = Boleta de Deposito"
-                "\n6 = Ficha de Stock"
-                "\n> "
-                )
-
-                while segun != "1" and segun != "2" and segun != "3" and segun != "4" and segun != "5" and segun != "6":
+                else:
 
                     segun = input(
-                        "\n¿Segun?"
-                        "\n1 = Factura Original"
-                        "\n2 = Factura Duplicado"
-                        "\n3 = Recibo Original"
-                        "\n4 = Recibo Duplicado"
-                        "\n5 = Boleta de Deposito"
-                        "\n6 = Ficha de Stock"
-                        "\n> "
+                    "\n¿Segun?"
+                    "\n1 = Factura Original"
+                    "\n2 = Factura Duplicado"
+                    "\n3 = Recibo Original"
+                    "\n4 = Recibo Duplicado"
+                    "\n5 = Boleta de Deposito"
+                    "\n6 = Ficha de Stock"
+                    "\n> "
                     )
 
-                asiento.set_segun(segun)
+                    while segun != "1" and segun != "2" and segun != "3" and segun != "4" and segun != "5" and segun != "6":
+
+                        segun = input(
+                            "\n¿Segun?"
+                            "\n1 = Factura Original"
+                            "\n2 = Factura Duplicado"
+                            "\n3 = Recibo Original"
+                            "\n4 = Recibo Duplicado"
+                            "\n5 = Boleta de Deposito"
+                            "\n6 = Ficha de Stock"
+                            "\n> "
+                        )
+
+                    asiento.set_segun(segun)
+
+        skip = False
 
         continuar = input(
             "\n¿Que desea hacer?"
@@ -279,11 +287,18 @@ def new():
             asiento.add_cuenta(cuenta, debe_o_haber, valor)
             continue
 
+        if continuar == "2":
+            modo_asiento = True
+            libro.add_asiento(asiento)
+            continue
+
         if continuar == "3":
+            modo_asiento = False
             continue
 
         if continuar == "4":
 
+            modo_asiento = False
             editar = input(
                 "\n¿Que desea editar?"
                 "\n1 = Cuenta"
@@ -347,12 +362,15 @@ def new():
 
             if editar == "4": pass # NO EDITAR NADA
 
+            skip = True
+
 #        if continuar == "1":
 
             ################## ACA IBA LO QUE ESTA AL FINAL DEL ARCHIVO ################
 
-        libro.add_asiento(asiento)
-        if continuar == "5": break
+        if continuar == "5":
+            libro.add_asiento(asiento)
+            break
 
     display(libro)
 
