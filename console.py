@@ -63,13 +63,6 @@ segun_dict = {
     "6": "Ficha de Stock"
 }
 
-def validate(date):
-    try:
-        return(True, parse(date))
-    except:
-        return(False)
-
-
 class Asiento():
 
     def __init__(self, first=False):
@@ -181,12 +174,16 @@ class Libro_Diario():
 def new():
     libro = Libro_Diario()
     first = True
+    modo_asiento = True
 
     while True:
-        if first: asiento = Asiento(first); first = False
-        else: asiento = Asiento()
 
-        fecha = input("\nFecha:\n> ")
+        if modo_asiento:
+            if first: asiento = Asiento(first)
+            else: asiento = Asiento()
+
+            if first: fecha = input("\nFecha:\n> ")
+            asiento.set_fecha(fecha)
 
         cuenta = input("\nCuenta:\n> ")
 
@@ -209,43 +206,51 @@ def new():
                 "\n> "
             )
 
-        if debe_o_haber == "1":
-            valor = input("\nValor: \n> ")
+        valor = input("\nValor: \n> ")
+        try:
+            valor = int(valor)
+        except:
+            pass
+        while type(valor) != int:
+            valor = input("\nValor:\n> ")
+            try:
+                valor = int(valor)
+            except:
+                pass
+        valor = str(valor)
 
-        elif debe_o_haber == "2":
-            valor = input("\nValor: \n> ")
+        if modo_asiento:
+            if asiento.first:
+                asiento.set_segun("0")
+                first = False
 
-        if asiento.first: asiento.set_segun("0")
-
-        else:
-
-            segun = input(
-            "\n¿Segun?"
-            "\n1 = Factura Original"
-            "\n2 = Factura Duplicado"
-            "\n3 = Recibo Original"
-            "\n4 = Recibo Duplicado"
-            "\n5 = Boleta de Deposito"
-            "\n6 = Ficha de Stock"
-            "\n> "
-            )
-
-            while segun != "1" and segun != "2" and segun != "3" and segun != "4" and segun != "5" and segun != "6":
+            else:
 
                 segun = input(
-                    "\n¿Segun?"
-                    "\n1 = Factura Original"
-                    "\n2 = Factura Duplicado"
-                    "\n3 = Recibo Original"
-                    "\n4 = Recibo Duplicado"
-                    "\n5 = Boleta de Deposito"
-                    "\n6 = Ficha de Stock"
-                    "\n> "
+                "\n¿Segun?"
+                "\n1 = Factura Original"
+                "\n2 = Factura Duplicado"
+                "\n3 = Recibo Original"
+                "\n4 = Recibo Duplicado"
+                "\n5 = Boleta de Deposito"
+                "\n6 = Ficha de Stock"
+                "\n> "
                 )
 
-            asiento.set_segun(segun)
+                while segun != "1" and segun != "2" and segun != "3" and segun != "4" and segun != "5" and segun != "6":
 
-        asiento.add_cuenta(cuenta,debe_o_haber,valor)
+                    segun = input(
+                        "\n¿Segun?"
+                        "\n1 = Factura Original"
+                        "\n2 = Factura Duplicado"
+                        "\n3 = Recibo Original"
+                        "\n4 = Recibo Duplicado"
+                        "\n5 = Boleta de Deposito"
+                        "\n6 = Ficha de Stock"
+                        "\n> "
+                    )
+
+                asiento.set_segun(segun)
 
         continuar = input(
             "\n¿Que desea hacer?"
@@ -269,15 +274,46 @@ def new():
                 "\n> "
             )
 
-        if continuar == "3": continue
-
-        ##################################### CONTINUAR CON OTRA CUENTA ###########################################
-
         if continuar == "1":
+            modo_asiento = False
+            asiento.add_cuenta(cuenta, debe_o_haber, valor)
+            continue
 
-            while True:
+        if continuar == "3":
+            continue
+
+        if continuar == "4":
+
+            editar = input(
+                "\n¿Que desea editar?"
+                "\n1 = Cuenta"
+                "\n2 = Debe o haber"
+                "\n3 = Valor"
+                "\n4 = Nada"
+                "\n> "
+            )
+
+            while editar != "1" and editar != "2" and editar != "3" and editar != "4":
+                editar = input(
+                    "\n¿Que desea editar?"
+                    "\n1 = Cuenta"
+                    "\n2 = Debe o haber"
+                    "\n3 = Valor"
+                    "\n4 = Nada"
+                    "\n> "
+                )
+
+            if editar == "1":
 
                 cuenta = input("\nCuenta:\n> ")
+                while cuenta not in valid:
+                    cuenta = input("\nCuenta:\n> ")
+                    if cuenta in valid and input("\n¿Seguro?\n1 = Si\n2 = No\n> ") == "1":
+                        break
+                    else:
+                        continue
+
+            if editar == "2":
 
                 debe_o_haber = input(
                     "\n¿Debe o haber?"
@@ -286,108 +322,34 @@ def new():
                     "\n> "
                 )
 
-                valor = input("\nValor: \n> ")
+                while debe_o_haber != "1" and debe_o_haber != "2":
 
-                continuar = input(
-                    "\n¿Que desea hacer?"
-                    "\n1 = Continuar otra cuenta"
-                    "\n2 = Continuar con el libro"
-                    "\n3 = Volver a editar cuenta"
-                    "\n4 = Editar solo un elemento"
-                    "\n5 = Parar"
-                    "\n> "
-                )
-
-                ########################## EDITAR UN ELEMENTO DE LA NUEVA CUENTA ############################
-
-                if continuar == "4":
-
-                    editar = input(
-                    "\n¿Que desea editar?"
-                    "\n1 = Cuenta"
-                    "\n2 = Debe o haber"
-                    "\n3 = Valor"
-                    "\n4 = Nada"
-                    "\n> "
+                    debe_o_haber = input(
+                        "\n¿Debe o haber?"
+                        "\n1 = Debe"
+                        "\n2 = Haber"
+                        "\n> "
                     )
+                    if debe_o_haber == "1" or debe_o_haber == "2" and input("\n¿Seguro?\n1 = Si\n2 = No\n> ") == "1":
+                        break
+                    else:
+                        continue
 
-                    while editar != "1" and editar != "2" and editar != "3" and editar != "4":
+            if editar == "3":
+                while type(valor) != int:
+                    valor = input("\nValor:\n> ")
+                    if input("\n¿Seguro?\n1 = Si\n2 = No\n> ") == "1":
+                        break
+                    else:
+                        continue
 
-                        editar = input(
-                            "\n¿Que desea editar?"
-                            "\n1 = Cuenta"
-                            "\n2 = Debe o haber"
-                            "\n3 = Valor"
-                            "\n4 = Nada"
-                            "\n> "
-                        )
+            asiento.add_cuenta(cuenta, debe_o_haber, valor)
 
+            if editar == "4": pass # NO EDITAR NADA
 
-                    ################# EDITAR NUMERO DE CUENTA ##############################################
-                    if editar == "1":
+#        if continuar == "1":
 
-                        cuenta = input("\nCuenta:\n> ")
-
-                        while cuenta not in valid:
-                            cuenta = input("\nCuenta:\n> ")
-                            if cuenta in valid and input("\n¿Seguro?\n1 = Si\n2 = No\n> ") == "1": break
-                    ################# EDITAR NUMERO DE CUENTA ##############################################
-
-
-
-                    ################################## EDITAR DEBE / HABER #########################################################
-                    if editar == "2":
-
-                        debe_o_haber = input(
-                            "\n¿Debe o haber?"
-                            "\n1 = Debe"
-                            "\n2 = Haber"
-                            "\n> "
-                        )
-
-                        while debe_o_haber != "1" and debe_o_haber != "2":
-
-                            debe_o_haber = input(
-                                "\n¿Debe o haber?"
-                                "\n1 = Debe"
-                                "\n2 = Haber"
-                                "\n> "
-                            )
-                            if debe_o_haber == "1" or debe_o_haber == "2" and input("\n¿Seguro?\n1 = Si\n2 = No\n> ") == "1": break
-                    ################################## EDITAR DEBE / HABER #########################################################
-
-
-
-                    ############################ EDITAR VALOR ##########################
-                    if editar == "3":
-
-                        while True:
-                            while cuenta not in valid:
-                                valor = input("\nValor:\n> ")
-                                if input("\n¿Seguro?\n1 = Si\n2 = No\n> ") == "1": break
-                    ############################ EDITAR VALOR ##########################
-
-
-
-                    if continuar == "4": pass # NO EDITAR NADA
-
-
-
-                ########################## EDITAR UN ELEMENTO DE LA NUEVA CUENTA ############################
-
-                    "\n1 = Continuar otra cuenta"
-                    "\n2 = Continuar con el libro"
-                    "\n3 = Volver a editar cuenta"
-                    "\n4 = Editar solo un elemento"
-                    "\n5 = Parar"
-
-
-                if continuar == "3": continue
-
-                asiento.add_cuenta(cuenta,debe_o_haber,valor)
-                if continuar == "2" or continuar == "5": break
-
-        ##################################### CONTINUAR CON OTRA CUENTA ###########################################
+            ################## ACA IBA LO QUE ESTA AL FINAL DEL ARCHIVO ################
 
         libro.add_asiento(asiento)
         if continuar == "5": break
@@ -505,4 +467,129 @@ if start == "2":
 |          |      Mercaderias(A-)                       |              |  2010        |
 
 
+"""
+
+"""
+    while True:
+
+        cuenta = input("\nCuenta:\n> ")
+        while cuenta not in valid:
+            cuenta = input("\nCuenta:\n> ")
+
+        debe_o_haber = input(
+            "\n¿Debe o haber?"
+            "\n1 = Debe"
+            "\n2 = Haber"
+            "\n> "
+        )
+        while debe_o_haber != "1" and debe_o_haber != "2":
+            debe_o_haber = input(
+                "\n¿Debe o haber?"
+                "\n1 = Debe"
+                "\n2 = Haber"
+                "\n> "
+            )
+
+        valor = input("\nValor: \n> ")
+        try:
+            valor = int(valor)
+        except:
+            pass
+        while type(valor) != int:
+            valor = input("\nValor:\n> ")
+            try: valor = int(valor)
+            except: pass
+
+        continuar = input(
+            "\n¿Que desea hacer?"
+            "\n1 = Continuar otra cuenta"
+            "\n2 = Continuar con el libro"
+            "\n3 = Volver a editar cuenta"
+            "\n4 = Editar solo un elemento"
+            "\n5 = Parar"
+            "\n> "
+        )
+
+        ########################## EDITAR UN ELEMENTO DE LA NUEVA CUENTA ############################
+
+        if continuar == "4":
+
+            editar = input(
+            "\n¿Que desea editar?"
+            "\n1 = Cuenta"
+            "\n2 = Debe o haber"
+            "\n3 = Valor"
+            "\n4 = Nada"
+            "\n> "
+            )
+
+            while editar != "1" and editar != "2" and editar != "3" and editar != "4":
+
+                editar = input(
+                    "\n¿Que desea editar?"
+                    "\n1 = Cuenta"
+                    "\n2 = Debe o haber"
+                    "\n3 = Valor"
+                    "\n4 = Nada"
+                    "\n> "
+                )
+
+
+            ################# EDITAR NUMERO DE CUENTA ##############################################
+            if editar == "1":
+
+                cuenta = input("\nCuenta:\n> ")
+                while cuenta not in valid:
+                    cuenta = input("\nCuenta:\n> ")
+                    if cuenta in valid and input("\n¿Seguro?\n1 = Si\n2 = No\n> ") == "1": break
+                    else: continue
+            ################# EDITAR NUMERO DE CUENTA ##############################################
+
+
+
+            ################################## EDITAR DEBE / HABER #########################################################
+            if editar == "2":
+
+                debe_o_haber = input(
+                    "\n¿Debe o haber?"
+                    "\n1 = Debe"
+                    "\n2 = Haber"
+                    "\n> "
+                )
+
+                while debe_o_haber != "1" and debe_o_haber != "2":
+
+                    debe_o_haber = input(
+                        "\n¿Debe o haber?"
+                        "\n1 = Debe"
+                        "\n2 = Haber"
+                        "\n> "
+                    )
+                    if debe_o_haber == "1" or debe_o_haber == "2" and input("\n¿Seguro?\n1 = Si\n2 = No\n> ") == "1": break
+                    else: continue
+            ################################## EDITAR DEBE / HABER #########################################################
+
+
+
+            ############################ EDITAR VALOR ##########################
+            if editar == "3":
+                while type(valor) != int:
+                    valor = input("\nValor:\n> ")
+                    if input("\n¿Seguro?\n1 = Si\n2 = No\n> ") == "1": break
+                    else: continue
+            ############################ EDITAR VALOR ##########################
+
+
+
+            if editar == "4": pass # NO EDITAR NADA
+        ########################## EDITAR UN ELEMENTO DE LA NUEVA CUENTA ############################
+
+
+
+        if continuar == "3": continue
+        asiento.add_cuenta(cuenta,debe_o_haber,valor)
+
+        if continuar == "2" or continuar == "5": break
+
+##################################### CONTINUAR CON OTRA CUENTA ###########################################
 """
