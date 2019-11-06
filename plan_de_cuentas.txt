@@ -1,5 +1,5 @@
 Activo
-1.01:BANCO "Nacion" Cuenta Corriente
+1.01:BANCO "Comafi" Cuenta Corriente
 1.02:Caja
 1.03:Deudores por ventas
 1.04:Documentos a cobrar

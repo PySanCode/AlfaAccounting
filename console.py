@@ -66,16 +66,27 @@ segun_dict = {
     "6": "Segun Ficha de Stock"
 }
 
+class Libro_Diario():
+
+    def __init__(self):
+
+        self.asientos = []
+
+    def add_asiento(self, asiento):
+
+        self.asientos.append(asiento)
+
 class Asiento():
 
-    def __init__(self, first=False):
+    def __init__(self, number, first=False):
 
         self.cuentas = []
-        self.segun = ""
-        self.segun_display = ""
         self.first = first
+        self.number = number
 
     def add_cuenta(self, cuenta, debe_o_haber, valor):
+
+        cuentas_list.get(cuenta).add_use(self.number, debe_o_haber, valor)
 
         if cuenta in activo:
             cuenta_nombre = activo.get(cuenta)
@@ -96,8 +107,8 @@ class Asiento():
         elif cuenta in pasivo:
             cuenta_nombre = pasivo.get(cuenta)
 
-            if debe_o_haber == "1": sufijo = "(P+)"
-            else: sufijo = "(P-)"
+            if debe_o_haber == "1": sufijo = "(P-)"
+            else: sufijo = "(P+)"
 
             self.cuentas.append({
                 "cuenta": cuenta,
@@ -112,8 +123,8 @@ class Asiento():
         elif cuenta in patrimonio_neto:
             cuenta_nombre = patrimonio_neto.get(cuenta)
 
-            if debe_o_haber == "1": sufijo = "(P.N+)"
-            else: sufijo = "(P.N-)"
+            if debe_o_haber == "1": sufijo = "(P.N-)"
+            else: sufijo = "(P.N+)"
 
             self.cuentas.append({
                 "cuenta": cuenta,
@@ -164,15 +175,51 @@ class Asiento():
         self.segun = segun
         self.segun_display = segun_dict.get(segun)
 
-class Libro_Diario():
+class Cuenta():
 
-    def __init__(self):
+    def __init__(self, number, name):
 
-        self.asientos = []
+        self.number = number
+        self.name = name
+        self.used = []
+        self.debe = 0
+        self.haber = 0
+        self.saldo_tipo = ""
+        self.saldo_valor = 0
 
-    def add_asiento(self, asiento):
+    def add_use(self, number, debe_o_haber, valor):
 
-        self.asientos.append(asiento)
+        self.used.append({
+            "number": number,
+            "debe_o_haber": debe_o_haber,
+            "valor": int(valor)
+        })
+
+    def calc_totals(self):
+
+        for use in self.used:
+
+            if use.get("debe_o_haber") == "1":
+
+                self.debe += use.get("valor")
+
+            else:
+
+                self.haber += use.get("valor")
+
+        if self.debe > self.haber:
+
+            self.saldo_tipo = "Saldo Deudor"
+            self.saldo_valor = self.debe - self.haber
+
+        elif self.haber > self.debe:
+
+            self.saldo_tipo = "Saldo Acreedor"
+            self.saldo_valor = self.haber - self.debe
+
+        else:
+
+            self.saldo_tipo = "Cuenta Saldada"
 
 def load_plan():
     global activo
@@ -181,6 +228,7 @@ def load_plan():
     global resultado_negativo
     global resultado_positivo
     global valid
+    global cuentas_list
 
     activo = {}
     pasivo = {}
@@ -188,6 +236,7 @@ def load_plan():
     resultado_negativo = {}
     resultado_positivo = {}
     valid = {}
+    cuentas_list = {}
 
     with open("plan_de_cuentas.txt", "r") as file:
 
@@ -227,22 +276,27 @@ def load_plan():
             if modo_activo:
                 activo.update({line[0]: line[1]})
                 valid.update({line[0]: line[1]})
+                cuentas_list.update({line[0]: Cuenta(line[0], line[1])})
 
             elif modo_pasivo:
                 pasivo.update({line[0]: line[1]})
                 valid.update({line[0]: line[1]})
+                cuentas_list.update({line[0]: Cuenta(line[0], line[1])})
 
             elif modo_pn:
                 patrimonio_neto.update({line[0]: line[1]})
                 valid.update({line[0]: line[1]})
+                cuentas_list.update({line[0]: Cuenta(line[0], line[1])})
 
             elif modo_rn:
                 resultado_negativo.update({line[0]: line[1]})
                 valid.update({line[0]: line[1]})
+                cuentas_list.update({line[0]: Cuenta(line[0], line[1])})
 
             elif modo_rp:
                 resultado_positivo.update({line[0]: line[1]})
                 valid.update({line[0]: line[1]})
+                cuentas_list.update({line[0]: Cuenta(line[0], line[1])})
 
     pass
 
@@ -255,8 +309,8 @@ def new():
     while True:
 
         if modo_asiento:
-            if first: asiento = Asiento(first)
-            else: asiento = Asiento()
+            if first: asiento = Asiento(len(libro.asientos) + 1, first=True)
+            else: asiento = Asiento(len(libro.asientos) + 1)
 
             if first: fecha = input("\nFecha:\n> ")
             asiento.set_fecha(fecha)
@@ -448,17 +502,22 @@ def new():
     display(libro)
 
 def display(libro):
-    print("| ", "Fecha", " " * (10 - len("fecha")), "| ", "Detalle", " " * (40 - len("detalle")), "| ", "Debe",
-    " " * (10 - len(("debe"))), "| ", "Haber", " " * (10 - len("haber")), "|")
+    print("| ", "Fecha", " " * (10 - len("fecha")),
+          "| ", "N°", " " * (5 - len("N°")),
+          "| ", "Detalle", " " * (40 - len("detalle")),
+          "| ", "Debe", " " * (10 - len(("debe"))),
+          "| ", "Haber", " " * (10 - len("haber")), "|")
 
     for asiento in libro.asientos:
 
         print("| ", "", " " * (10),
+              "| ", "", " " * (5),
               "| ", "-------------------{}--------------------".format(libro.asientos.index(asiento)+1), " " * (40 - 40),
               "| ", "", " " * (10),
               "| ", "", " " * (10), "|")
 
         print("| ", asiento.fecha, " " * (10 - len(asiento.fecha)),
+              "| ", asiento.cuentas[0].get("cuenta"), " " * (5 - len(asiento.cuentas[0].get("cuenta"))),
               "| ", asiento.cuentas[0].get("display"), " " * (40 - len(asiento.cuentas[0].get("display"))),
               "| ", asiento.cuentas[0].get("valor"), " " * (10 - len((asiento.cuentas[0].get("valor")))),
               "| ", "", " " * (10), "|")
@@ -469,6 +528,7 @@ def display(libro):
 
             if cuenta.get("debe_o_haber") == "1":
                 print("| ", "", " " * (10),
+                      "| ", cuenta.get("cuenta"), " " * (5 - len(asiento.cuentas[0].get("cuenta"))),
                       "| ", cuenta.get("display"), " " * (40 - len(cuenta.get("display"))),
                       "| ", cuenta.get("valor"), " " * (10 - len((cuenta.get("valor")))),
                       "| ", "", " " * (10), "|")
@@ -479,14 +539,22 @@ def display(libro):
 
             if cuenta.get("debe_o_haber") == "2":
                 print("| ", "", " " * (10),
+                      "| ", cuenta.get("cuenta"), " " * (5 - len(asiento.cuentas[0].get("cuenta"))),
                       "| ", "    " + cuenta.get("display"), " " * (40 - (len((cuenta.get("display"))) + len("    "))),
                       "| ", "", " " * (10),
                       "| ", cuenta.get("valor"), " " * (10 - len((cuenta.get("valor")))), "|")
 
         print("| ", "", " " * (10),
+              "| ", "", " " * (5),
               "| ", asiento.segun_display, " " * (40 - (len(asiento.segun_display))),
               "| ", "", " " * (10),
               "| ", "", " " * (10), "|")
+
+    for cuenta in cuentas_list:
+
+        pass
+
+
 
 def main():
     print("AlfaBOOK Edicion Consola\n"
@@ -518,25 +586,26 @@ def main():
 
 #main()
 
-raise("TENES QUE PONER EL NUMERO DE LA CUENTA JUNTO CON EL LIBRO DIARIO Y TAMBIEN HACER LOS OTROS DOS LIBROS DE UNA VEZ")
+#raise("TENES QUE PONER EL NUMERO DE LA CUENTA JUNTO CON EL LIBRO DIARIO Y TAMBIEN HACER LOS OTROS DOS LIBROS DE UNA VEZ")
 
 load_plan()
 libro = Libro_Diario()
-asiento1 = Asiento()
-asiento2 = Asiento()
-asiento3 = Asiento()
-asiento1.add_cuenta("1.03","1","5050")
-asiento1.add_cuenta("1.11","1","1000")
-asiento1.add_cuenta("1.01","1","1500")
-asiento1.add_cuenta("4.01","2","2000")
-asiento1.set_fecha("05/05")
-asiento2.add_cuenta("1.04","1","1500")
-asiento2.add_cuenta("1.05","1","3000")
-asiento2.add_cuenta("1.06","1","2500")
-asiento2.add_cuenta("1.01","2","5000")
-asiento2.set_fecha("08/05")
-asiento2.set_segun("3")
-asiento3.add_cuenta("1.07","1","50")
+asiento1 = Asiento(len(libro.asientos) + 1)
+asiento2 = Asiento(len(libro.asientos) + 1)
+asiento3 = Asiento(len(libro.asientos) + 1)
+asiento1.add_cuenta("1.02","1","45000")
+asiento1.add_cuenta("1.10","1","16000")
+asiento1.add_cuenta("1.01","1","25000")
+asiento1.add_cuenta("2.02","2","6500")
+asiento1.add_cuenta("4.01","2","119500")
+asiento1.set_fecha("01/11")
+asiento1.set_segun("0")
+asiento2.add_cuenta("1.14","1","3325")
+asiento2.add_cuenta("4.04","1","175")
+asiento2.add_cuenta("1.10","1","3500")
+asiento2.set_fecha("03/11")
+asiento2.set_segun("2")
+asiento3.add_cuenta("4.06","1","50")
 asiento3.add_cuenta("1.08","1","1200")
 asiento3.add_cuenta("1.09","1","5050")
 asiento3.add_cuenta("1.10","2","2010")
@@ -547,26 +616,51 @@ libro.add_asiento(asiento2)
 libro.add_asiento(asiento3)
 display(libro)
 
+for cuenta in list(cuentas_list.values()):
+
+    cuenta.calc_totals()
+    print(cuenta.name, "\ndebe:", cuenta.debe)
+    print("haber:", cuenta.haber)
+    print("tipo:", cuenta.saldo_tipo)
+    print("valor:", cuenta.saldo_valor, "\n")
+
 """
 
-|  Fecha   |  Detalle                                   |  Debe        |  Haber       |
-|          |  -------------------1--------------------  |              |              |
-|  05/05   |  BANCO "X" Cuenta Corriente(A+)            |  500         |              |
-|          |  Caja(A+)                                  |  1000        |              |
-|          |  Deudores por ventas(A+)                   |  500         |              |
-|          |      Capital(P.N-)                         |              |  2000        |
-|          |  -------------------2--------------------  |              |              |
-|  08/05   |  Documentos a cobrar(A+)                   |  1500        |              |
-|          |  Equipos de computacion(A+)                |  3000        |              |
-|          |  Inmuebles(A+)                             |  2500        |              |
-|          |      BANCO "X" Cuenta Corriente(A-)        |              |  5000        |
-|          |  -------------------3--------------------  |              |              |
-|  10/05   |  Instalaciones(A+)                         |  50          |              |
-|          |  Maquinarias(A+)                           |  1200        |              |
-|          |  Materias primas(A+)                       |  5050        |              |
-|          |      Mercaderias(A-)                       |              |  2010        |
+|  Fecha       |  N°     |  Detalle                                   |  Debe        |  Haber       |
+|              |         |  -------------------1--------------------  |              |              |
+|  05/05       |  1.03   |  Deudores por ventas(A+)                   |  5050        |              |
+|              |  1.11   |  Muebles y utiles(A+)                      |  1000        |              |
+|              |  1.01   |  BANCO "Nacion" Cuenta Corriente(A+)       |  1500        |              |
+|              |  4.01   |      Alquileres perdidos(R.N.)             |              |  2000        |
+|              |         |  Segun Factura Duplicado                   |              |              |
+|              |         |  -------------------2--------------------  |              |              |
+|  08/05       |  1.04   |  Documentos a cobrar(A+)                   |  1500        |              |
+|              |  1.05   |  Equipos de computacion(A+)                |  3000        |              |
+|              |  1.06   |  Inmuebles(A+)                             |  2500        |              |
+|              |  1.01   |      BANCO "Nacion" Cuenta Corriente(A-)   |              |  5000        |
+|              |         |  Segun Recibo Original                     |              |              |
+|              |         |  -------------------3--------------------  |              |              |
+|  10/05       |  1.07   |  Instalaciones(A+)                         |  50          |              |
+|              |  1.08   |  Maquinarias(A+)                           |  1200        |              |
+|              |  1.09   |  Materias primas(A+)                       |  5050        |              |
+|              |  1.10   |      Mercaderias(A-)                       |              |  2010        |
+|              |         |  Segun Recibo Duplicado                    |              |              |
 
 
+"""
+
+"""
+ |     (Nombre)     |
+ |------------------|
+ |Debe    |    Haber|
+ |------------------|
+ |1:2000  | 3:5000  |
+ |        |         |
+ |        |         |
+ |------------------|
+ |2000    | 5000    |
+ |------------------|
+ |Saldo A: 5000     |
 """
 
 """
