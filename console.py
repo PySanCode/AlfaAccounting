@@ -212,7 +212,7 @@ class Cuenta():
 
                 self.debe += use.get("valor")
 
-            else:
+            elif use.get("debe_o_haber" == "2"):
 
                 self.haber += use.get("valor")
 
@@ -567,30 +567,160 @@ def display_libro_diario(libro):
         total_debe += cuenta.debe
         total_haber += cuenta.haber
 
-    print("| ", "", " " * (10),
-          "| ", "", " " * (5),
-          "| ", "Total", " " * (40 - len("Total")),
-          "| ", str(total_debe), " " * (10 - len(str(total_debe))),
-          "| ", str(total_haber), " " * (10 - len(str(total_haber))), "|\n")
+    print("|", "-" * 97, "|")
+
+    print(
+        "| ", "", " " * (10),
+        "| ", "", " " * (5),
+        "| ", "Total", " " * (40 - len("Total")),
+        "| ", str(total_debe), " " * (10 - len(str(total_debe))),
+        "| ", str(total_haber), " " * (10 - len(str(total_haber))), "|"
+        )
+
+    print("|", "-" * 97, "|")
 
 def display_libro_mayor(libro):
 
     for cuenta in list(cuentas_list.values()):
 
         cuenta.calc_totals()
+
         #print(cuenta.name, "\ndebe:", cuenta.debe)
         #print("haber:", cuenta.haber)
         #print("tipo:", cuenta.saldo_tipo)
         #print("valor:", cuenta.saldo_valor, "\n")
 
-        print(
-            "\n| ", cuenta.name, "({})".format(cuenta.number), " " * (24 - len(cuenta.name) + len(cuenta.number) + 2), "|",
-            "\n| ", "-" * 38, "|", " " * (24 - len("-" * 38)),
-            "\n| ", "Debe", "|" , " " * (38), "|"
-            "\n| ", "", " " * (10), "|"
-            "\n| ", "", " " * (10), "|\n"
-        )
+        if cuenta.debe == 0 and cuenta.haber == 0: continue
 
+        debe_used = []
+        haber_used = []
+
+        for use in cuenta.used:
+
+            if use.get("debe_o_haber") == "1":
+
+                debe_used.append(str(use.get("number")) + ": " + str(use.get("valor")))
+
+            elif use.get("debe_o_haber") == "2":
+
+                haber_used.append(str(use.get("number")) + ": " + str(use.get("valor")))
+
+        while len(debe_used) < 6:
+
+            debe_used.append("")
+
+        while len(haber_used) < 6:
+
+            haber_used.append("")
+
+        if cuenta.saldo_tipo != "Cuenta Saldada":
+
+            print(
+
+                "\n\n\n| ", cuenta.name, "({})".format(cuenta.number),
+                " " * (36 - len(cuenta.name) - len(cuenta.number) + 2), "|",
+
+                "\n|", "-" * 41, "|",
+
+                "\n| ", "Debe", " " * (19 - len("debe")), "| ", "Haber", " " * (19 - len("haber")), "|",
+
+                "\n|", "-" * 41, "|",
+
+
+                "\n| ", "{}".format(debe_used[0]), " " * (19 - len("{}".format(debe_used[0]))), "| ",
+                "{}".format(haber_used[0]), " " * (19 - len("{}".format(haber_used[0]))), "|",
+
+                "\n| ", "{}".format(debe_used[1]), " " * (19 - len("{}".format(debe_used[1]))), "| ",
+                "{}".format(haber_used[1]), " " * (19 - len("{}".format(haber_used[1]))), "|",
+
+                "\n| ", "{}".format(debe_used[2]), " " * (19 - len("{}".format(debe_used[2]))), "| ",
+                "{}".format(haber_used[2]), " " * (19 - len("{}".format(haber_used[2]))), "|",
+
+                "\n| ", "{}".format(debe_used[3]), " " * (19 - len("{}".format(debe_used[3]))), "| ",
+                "{}".format(haber_used[3]), " " * (19 - len("{}".format(haber_used[3]))), "|",
+
+                "\n| ", "{}".format(debe_used[4]), " " * (19 - len("{}".format(debe_used[4]))), "| ",
+                "{}".format(haber_used[4]), " " * (19 - len("{}".format(haber_used[4]))), "|",
+
+                "\n| ", "{}".format(debe_used[5]), " " * (19 - len("{}".format(debe_used[5]))), "| ",
+                "{}".format(haber_used[5]), " " * (19 - len("{}".format(haber_used[5]))), "|",
+
+                "\n|", "-" * 41, "|",
+
+                "\n| ", "{}".format(cuenta.debe), " " * (19 - len("{}".format(cuenta.debe))), "| ",
+                "{}".format(cuenta.haber), " " * (19 - len("{}".format(cuenta.haber))), "|",
+
+                "\n|", "-" * 41, "|",
+
+                "\n| ", cuenta.saldo_tipo, ": {}".format(cuenta.saldo_valor),
+                " " * (38 - len(cuenta.saldo_tipo) - len(str(cuenta.saldo_valor))), "|",
+
+                "\n|", "-" * 41, "|",
+
+                sep=""
+            )
+
+        else:
+
+            print(
+
+                "\n\n\n| ", cuenta.name, "({})".format(cuenta.number),
+                " " * (36 - len(cuenta.name) - len(cuenta.number) + 2), "|",
+
+                "\n|", "-" * 41, "|",
+
+                "\n| ", "Debe", " " * (19 - len("debe")), "| ", "Haber", " " * (19 - len("haber")), "|",
+
+                "\n|", "-" * 41, "|",
+
+                "\n| ", "{}".format(debe_used[0]), " " * (19 - len("{}".format(debe_used[0]))), "| ",
+                "{}".format(haber_used[0]), " " * (19 - len("{}".format(haber_used[0]))), "|",
+
+                "\n| ", "{}".format(debe_used[1]), " " * (19 - len("{}".format(debe_used[1]))), "| ",
+                "{}".format(haber_used[1]), " " * (19 - len("{}".format(haber_used[1]))), "|",
+
+                "\n| ", "{}".format(debe_used[2]), " " * (19 - len("{}".format(debe_used[2]))), "| ",
+                "{}".format(haber_used[2]), " " * (19 - len("{}".format(haber_used[2]))), "|",
+
+                "\n| ", "{}".format(debe_used[3]), " " * (19 - len("{}".format(debe_used[3]))), "| ",
+                "{}".format(haber_used[3]), " " * (19 - len("{}".format(haber_used[3]))), "|",
+
+                "\n| ", "{}".format(debe_used[4]), " " * (19 - len("{}".format(debe_used[4]))), "| ",
+                "{}".format(haber_used[4]), " " * (19 - len("{}".format(haber_used[4]))), "|",
+
+                "\n| ", "{}".format(debe_used[5]), " " * (19 - len("{}".format(debe_used[5]))), "| ",
+                "{}".format(haber_used[5]), " " * (19 - len("{}".format(haber_used[5]))), "|",
+
+                "\n|", "-" * 41, "|",
+
+                "\n| ", "{}".format(cuenta.debe), " " * (19 - len("{}".format(cuenta.debe))), "| ",
+                "{}".format(cuenta.haber), " " * (19 - len("{}".format(cuenta.haber))), "|",
+
+                "\n|", "-" * 41, "|",
+
+                "\n| ", cuenta.saldo_tipo, "",
+                " " * (40 - len(cuenta.saldo_tipo)), "|",
+
+                "\n|", "-" * 41, "|",
+
+                sep=""
+            )
+
+
+
+"""
+ |     (Nombre)     |
+ |------------------|
+ |  Debe  |  Haber  |
+ |------------------|
+ |1:2000  | 3:5000  |
+ |        |         |
+ |        |         |
+ |------------------|
+ |2000    | 5000    |
+ |------------------|
+ |Saldo A: 5000     |
+"""
 
 def main():
     print("AlfaBOOK Edicion Consola\n",
@@ -626,12 +756,12 @@ def main():
 
 load_plan()
 libro = Libro_Diario()
-asiento1 = Asiento(len(libro.asientos) + 1)
-asiento2 = Asiento(len(libro.asientos) + 1)
-asiento3 = Asiento(len(libro.asientos) + 1)
-asiento4 = Asiento(len(libro.asientos) + 1)
-asiento5 = Asiento(len(libro.asientos) + 1)
-asiento6 = Asiento(len(libro.asientos) + 1)
+asiento1 = Asiento(1)
+asiento2 = Asiento(2)
+asiento3 = Asiento(3)
+asiento4 = Asiento(4)
+asiento5 = Asiento(5)
+asiento6 = Asiento(6)
 
 asiento1.add_cuenta("1.02","1","45000")
 asiento1.add_cuenta("1.10","1","16000")
@@ -691,23 +821,37 @@ display_libro_mayor(libro)
 
 |  Fecha       |  N°     |  Detalle                                   |  Debe        |  Haber       |
 |              |         |  -------------------1--------------------  |              |              |
-|  05/05       |  1.03   |  Deudores por ventas(A+)                   |  5050        |              |
-|              |  1.11   |  Muebles y utiles(A+)                      |  1000        |              |
-|              |  1.01   |  BANCO "Nacion" Cuenta Corriente(A+)       |  1500        |              |
-|              |  4.01   |      Alquileres perdidos(R.N.)             |              |  2000        |
-|              |         |  Segun Factura Duplicado                   |              |              |
+|  01/11       |  1.02   |  Caja(A+)                                  |  45000       |              |
+|              |  1.10   |  Mercaderias(A+)                           |  16000       |              |
+|              |  1.12   |  Rodados(A+)                               |  40000       |              |
+|              |  1.01   |  BANCO "Comafi" Cta. Cte.(A+)              |  25000       |              |
+|              |  2.02   |      Documentos a pagar(P+)                |              |  6500        |
+|              |  4.01   |      Alquileres perdidos(R.N.)             |              |  119500      |
+|              |         |  Segun Inventario Inicial                  |              |              |
 |              |         |  -------------------2--------------------  |              |              |
-|  08/05       |  1.04   |  Documentos a cobrar(A+)                   |  1500        |              |
-|              |  1.05   |  Equipos de computacion(A+)                |  3000        |              |
-|              |  1.06   |  Inmuebles(A+)                             |  2500        |              |
-|              |  1.01   |      BANCO "Nacion" Cuenta Corriente(A-)   |              |  5000        |
-|              |         |  Segun Recibo Original                     |              |              |
+|  03/11       |  1.14   |  Valores a depositar(A+)                   |  3325        |              |
+|              |  4.04   |  Descuentos cedidos(R.N.)                  |  175         |              |
+|              |  1.10   |      Mercaderias(A-)                       |              |  3500        |
+|              |         |  Segun Factura Duplicado                   |              |              |
 |              |         |  -------------------3--------------------  |              |              |
-|  10/05       |  1.07   |  Instalaciones(A+)                         |  50          |              |
-|              |  1.08   |  Maquinarias(A+)                           |  1200        |              |
-|              |  1.09   |  Materias primas(A+)                       |  5050        |              |
-|              |  1.10   |      Mercaderias(A-)                       |              |  2010        |
-|              |         |  Segun Recibo Duplicado                    |              |              |
+|  03/11       |  4.06   |  Gastos generales(R.N.)                    |  600         |              |
+|              |  1.01   |      BANCO "Comafi" Cta. Cte.(A-)          |              |  600         |
+|              |         |  Segun Factura Original                    |              |              |
+|              |         |  -------------------4--------------------  |              |              |
+|  04/11       |  1.10   |  Mercaderias(A+)                           |  5700        |              |
+|              |  4.08   |  Intereses perdidos(R.N.)                  |  164         |              |
+|              |  2.02   |      Documentos a pagar(P+)                |              |  5864        |
+|              |         |  Segun Factura Original                    |              |              |
+|              |         |  -------------------5--------------------  |              |              |
+|  07/11       |  2.02   |  Documentos a pagar(P-)                    |  6500        |              |
+|              |  1.02   |      Caja(A-)                              |              |  6500        |
+|              |         |  Segun Recibo Original                     |              |              |
+|              |         |  -------------------6--------------------  |              |              |
+|  08/11       |  1.15   |  BANCO "Zurich" Cta. Cte.(A+)              |  13325       |              |
+|              |  1.02   |      Caja(A-)                              |              |  10000       |
+|              |  1.14   |      Valores a depositar(A-)               |              |  3325        |
+|              |         |  Segun Boleta de Deposito                  |              |              |
+|              |         |  Total                                     |  155789      |  155789      |
 
 
 """
@@ -715,7 +859,7 @@ display_libro_mayor(libro)
 """
  |     (Nombre)     |
  |------------------|
- |Debe    |    Haber|
+ | Debe   |   Haber |
  |------------------|
  |1:2000  | 3:5000  |
  |        |         |
