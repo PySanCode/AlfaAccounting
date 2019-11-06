@@ -107,8 +107,8 @@ class Asiento():
         elif cuenta in pasivo:
             cuenta_nombre = pasivo.get(cuenta)
 
-            if debe_o_haber == "1": sufijo = "(P-)"
-            else: sufijo = "(P+)"
+            if debe_o_haber == "1": sufijo = "(P+)"
+            else: sufijo = "(P-)"
 
             self.cuentas.append({
                 "cuenta": cuenta,
@@ -602,7 +602,7 @@ asiento1.set_fecha("01/11")
 asiento1.set_segun("0")
 asiento2.add_cuenta("1.14","1","3325")
 asiento2.add_cuenta("4.04","1","175")
-asiento2.add_cuenta("1.10","1","3500")
+asiento2.add_cuenta("1.10","2","3500")
 asiento2.set_fecha("03/11")
 asiento2.set_segun("2")
 asiento3.add_cuenta("4.06","1","50")
