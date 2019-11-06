@@ -107,8 +107,8 @@ class Asiento():
         elif cuenta in pasivo:
             cuenta_nombre = pasivo.get(cuenta)
 
-            if debe_o_haber == "1": sufijo = "(P+)"
-            else: sufijo = "(P-)"
+            if debe_o_haber == "1": sufijo = "(P-)"
+            else: sufijo = "(P+)"
 
             self.cuentas.append({
                 "cuenta": cuenta,
