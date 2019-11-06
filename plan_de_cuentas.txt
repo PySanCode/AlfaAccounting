@@ -1,5 +1,5 @@
 Activo
-1.01:BANCO "Comafi" Cuenta Corriente
+1.01:BANCO "Comafi" Cta. Cte.
 1.02:Caja
 1.03:Deudores por ventas
 1.04:Documentos a cobrar
@@ -12,6 +12,7 @@ Activo
 1.11:Muebles y utiles
 1.12:Rodados
 1.14:Valores a depositar
+1.15:BANCO "Zurich" Cta. Cte.
 
 Pasivo
 2.01:Acreedores varios

@@ -54,7 +54,9 @@
 #    "3.01",
 #    "4.01","4.02","4.03","4.04","4.05","4.06","4.07","4.08","4.09","4.10","4.11",
 #    "5.01","5.02","5.03","5.04","5.05"
-#]
+#
+
+__version__ = "1.0"
 
 segun_dict = {
     "0": "Segun Inventario Inicial",
@@ -83,6 +85,8 @@ class Asiento():
         self.cuentas = []
         self.first = first
         self.number = number
+        self.total_debe = 0
+        self.total_haber = 0
 
     def add_cuenta(self, cuenta, debe_o_haber, valor):
 
@@ -174,6 +178,11 @@ class Asiento():
 
         self.segun = segun
         self.segun_display = segun_dict.get(segun)
+
+    def set_totals(self, total_debe, total_haber):
+
+        self.total_debe = total_debe
+        self.total_haber = total_haber
 
 class Cuenta():
 
@@ -499,9 +508,10 @@ def new():
             asiento.add_cuenta(cuenta, debe_o_haber, valor)
             break
 
-    display(libro)
+    display_libro_diario(libro)
 
-def display(libro):
+def display_libro_diario(libro):
+
     print("| ", "Fecha", " " * (10 - len("fecha")),
           "| ", "N°", " " * (5 - len("N°")),
           "| ", "Detalle", " " * (40 - len("detalle")),
@@ -550,15 +560,41 @@ def display(libro):
               "| ", "", " " * (10),
               "| ", "", " " * (10), "|")
 
-    for cuenta in cuentas_list:
+    total_debe = 0
+    total_haber = 0
+    for cuenta in list(cuentas_list.values()):
+        cuenta.calc_totals()
+        total_debe += cuenta.debe
+        total_haber += cuenta.haber
 
-        pass
+    print("| ", "", " " * (10),
+          "| ", "", " " * (5),
+          "| ", "Total", " " * (40 - len("Total")),
+          "| ", str(total_debe), " " * (10 - len(str(total_debe))),
+          "| ", str(total_haber), " " * (10 - len(str(total_haber))), "|\n")
 
+def display_libro_mayor(libro):
+
+    for cuenta in list(cuentas_list.values()):
+
+        cuenta.calc_totals()
+        #print(cuenta.name, "\ndebe:", cuenta.debe)
+        #print("haber:", cuenta.haber)
+        #print("tipo:", cuenta.saldo_tipo)
+        #print("valor:", cuenta.saldo_valor, "\n")
+
+        print(
+            "\n| ", cuenta.name, "({})".format(cuenta.number), " " * (24 - len(cuenta.name) + len(cuenta.number) + 2), "|",
+            "\n| ", "-" * 38, "|", " " * (24 - len("-" * 38)),
+            "\n| ", "Debe", "|" , " " * (38), "|"
+            "\n| ", "", " " * (10), "|"
+            "\n| ", "", " " * (10), "|\n"
+        )
 
 
 def main():
-    print("AlfaBOOK Edicion Consola\n"
-          "Version 1.0")
+    print("AlfaBOOK Edicion Consola\n",
+          __version__)
     load_plan()
 
     while True:
@@ -593,36 +629,63 @@ libro = Libro_Diario()
 asiento1 = Asiento(len(libro.asientos) + 1)
 asiento2 = Asiento(len(libro.asientos) + 1)
 asiento3 = Asiento(len(libro.asientos) + 1)
+asiento4 = Asiento(len(libro.asientos) + 1)
+asiento5 = Asiento(len(libro.asientos) + 1)
+asiento6 = Asiento(len(libro.asientos) + 1)
+
 asiento1.add_cuenta("1.02","1","45000")
 asiento1.add_cuenta("1.10","1","16000")
+asiento1.add_cuenta("1.12","1","40000")
 asiento1.add_cuenta("1.01","1","25000")
 asiento1.add_cuenta("2.02","2","6500")
 asiento1.add_cuenta("4.01","2","119500")
 asiento1.set_fecha("01/11")
 asiento1.set_segun("0")
+
 asiento2.add_cuenta("1.14","1","3325")
 asiento2.add_cuenta("4.04","1","175")
 asiento2.add_cuenta("1.10","2","3500")
 asiento2.set_fecha("03/11")
 asiento2.set_segun("2")
-asiento3.add_cuenta("4.06","1","50")
-asiento3.add_cuenta("1.08","1","1200")
-asiento3.add_cuenta("1.09","1","5050")
-asiento3.add_cuenta("1.10","2","2010")
-asiento3.set_fecha("10/05")
-asiento3.set_segun("4")
+
+asiento3.add_cuenta("4.06","1","600")
+asiento3.add_cuenta("1.01","2","600")
+asiento3.set_fecha("03/11")
+asiento3.set_segun("1")
+
+asiento4.add_cuenta("1.10","1","5700")
+asiento4.add_cuenta("4.08","1","164")
+asiento4.add_cuenta("2.02","2","5864")
+asiento4.set_fecha("04/11")
+asiento4.set_segun("1")
+
+asiento5.add_cuenta("2.02","1","6500")
+asiento5.add_cuenta("1.02","2","6500")
+asiento5.set_fecha("07/11")
+asiento5.set_segun("3")
+
+asiento6.add_cuenta("1.15","1","13325")
+asiento6.add_cuenta("1.02","2","10000")
+asiento6.add_cuenta("1.14","2","3325")
+asiento6.set_fecha("08/11")
+asiento6.set_segun("5")
+
 libro.add_asiento(asiento1)
 libro.add_asiento(asiento2)
 libro.add_asiento(asiento3)
-display(libro)
+libro.add_asiento(asiento4)
+libro.add_asiento(asiento5)
+libro.add_asiento(asiento6)
+display_libro_diario(libro)
+display_libro_mayor(libro)
 
-for cuenta in list(cuentas_list.values()):
-
-    cuenta.calc_totals()
-    print(cuenta.name, "\ndebe:", cuenta.debe)
-    print("haber:", cuenta.haber)
-    print("tipo:", cuenta.saldo_tipo)
-    print("valor:", cuenta.saldo_valor, "\n")
+#for cuenta in list(cuentas_list.values()):
+#
+#    cuenta.calc_totals()
+#    print(cuenta.name, "\ndebe:", cuenta.debe)
+#    print("haber:", cuenta.haber)
+#    print("tipo:", cuenta.saldo_tipo)
+#    print("valor:", cuenta.saldo_valor, "\n")
 
 """
 

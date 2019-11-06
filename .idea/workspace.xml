@@ -247,7 +247,28 @@
       <option name="project" value="LOCAL" />
       <updated>1573010828266</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="casi terminando libro mayor">
+      <created>1573076342566</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1573076342567</updated>
+    </task>
+    <task id="LOCAL-00018" summary="casi terminando libro mayor">
+      <created>1573076399628</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1573076399628</updated>
+    </task>
+    <task id="LOCAL-00019" summary="casi terminando libro mayor">
+      <created>1573076450913</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1573076450913</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TodoView">
@@ -292,7 +313,8 @@
     <MESSAGE value="refactor" />
     <MESSAGE value="refactor casi casi working" />
     <MESSAGE value="load_plan funcionando pero no anda el display para cuentas pasivo no se porque" />
-    <option name="LAST_COMMIT_MESSAGE" value="load_plan funcionando pero no anda el display para cuentas pasivo no se porque" />
+    <MESSAGE value="casi terminando libro mayor" />
+    <option name="LAST_COMMIT_MESSAGE" value="casi terminando libro mayor" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
