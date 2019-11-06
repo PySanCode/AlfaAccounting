@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b3360a42-d39b-4e47-81af-bf5a85395041" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/plan_de_cuentas.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/console.py" beforeDir="false" afterPath="$PROJECT_DIR$/console.py" afterDir="false" />
     </list>
@@ -233,7 +232,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572923944793</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="load_plan funcionando pero no anda el display para cuentas pasivo no se porque">
+      <created>1573009958381</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1573009958381</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TodoView">
@@ -277,31 +283,14 @@
     <MESSAGE value="." />
     <MESSAGE value="refactor" />
     <MESSAGE value="refactor casi casi working" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor casi casi working" />
+    <MESSAGE value="load_plan funcionando pero no anda el display para cuentas pasivo no se porque" />
+    <option name="LAST_COMMIT_MESSAGE" value="load_plan funcionando pero no anda el display para cuentas pasivo no se porque" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/console.py</url>
-          <line>452</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="asiento1.segun_display" />
       </configuration>
     </watches-manager>
-  </component>
-  <component name="debuggerHistoryManager">
-    <expressions id="evaluateExpression">
-      <expression>
-        <expression-string>asiento1.segun_display</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-    </expressions>
   </component>
 </project>

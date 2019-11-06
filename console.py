@@ -57,13 +57,13 @@
 #]
 
 segun_dict = {
-    "0": "Inventario Inicial",
-    "1": "Factura Original",
-    "2": "Factura Duplicado",
-    "3": "Recibo Original",
-    "4": "Recibo Duplicado",
-    "5": "Boleta de Deposito",
-    "6": "Ficha de Stock"
+    "0": "Segun Inventario Inicial",
+    "1": "Segun Factura Original",
+    "2": "Segun Factura Duplicado",
+    "3": "Segun Recibo Original",
+    "4": "Segun Recibo Duplicado",
+    "5": "Segun Boleta de Deposito",
+    "6": "Segun Ficha de Stock"
 }
 
 class Asiento():
@@ -338,7 +338,7 @@ def new():
             "\n2 = Continuar con el libro"
             "\n3 = Volver a editar" #FALTA EDITAR SOLO UNA CUENTA
             "\n4 = Editar solo un elemento"
-            "\n5 = Parar"
+            "\n5 = Parar y guardar"
             "\n> "
         )
 
@@ -350,7 +350,7 @@ def new():
                 "\n2 = Continuar con el libro"
                 "\n3 = Volver a editar"
                 "\n4 = Editar solo un elemento"
-                "\n5 = Parar"
+                "\n5 = Parar y guardar"
                 "\n> "
             )
 
@@ -442,6 +442,7 @@ def new():
 
         if continuar == "5":
             libro.add_asiento(asiento)
+            asiento.add_cuenta(cuenta, debe_o_haber, valor)
             break
 
     display(libro)
@@ -514,38 +515,37 @@ def main():
         if start == "2":
             load_previous()
 
-main()
 
-# libro = Libro_Diario()
-# asiento1 = Asiento()
-# asiento2 = Asiento()
-# asiento3 = Asiento()
-#
-# asiento1.add_cuenta("1.03","1","5050")
-# asiento1.add_cuenta("1.11","1","1000")
-# asiento1.add_cuenta("1.01","1","1500")
-# asiento1.add_cuenta("4.01","2","2000")
-# asiento1.set_fecha("05/05")
-#
-# asiento2.add_cuenta("1.04","1","1500")
-# asiento2.add_cuenta("1.05","1","3000")
-# asiento2.add_cuenta("1.06","1","2500")
-# asiento2.add_cuenta("1.01","2","5000")
-# asiento2.set_fecha("08/05")
-# asiento2.set_segun("3")
-#
-# asiento3.add_cuenta("1.07","1","50")
-# asiento3.add_cuenta("1.08","1","1200")
-# asiento3.add_cuenta("1.09","1","5050")
-# asiento3.add_cuenta("1.10","2","2010")
-# asiento3.set_fecha("10/05")
-# asiento3.set_segun("4")
-#
-# libro.add_asiento(asiento1)
-# libro.add_asiento(asiento2)
-# libro.add_asiento(asiento3)
-#
-# display(libro)
+#main()
+
+raise("TENES QUE PONER EL NUMERO DE LA CUENTA JUNTO CON EL LIBRO DIARIO Y TAMBIEN HACER LOS OTROS DOS LIBROS DE UNA VEZ")
+
+load_plan()
+libro = Libro_Diario()
+asiento1 = Asiento()
+asiento2 = Asiento()
+asiento3 = Asiento()
+asiento1.add_cuenta("1.03","1","5050")
+asiento1.add_cuenta("1.11","1","1000")
+asiento1.add_cuenta("1.01","1","1500")
+asiento1.add_cuenta("4.01","2","2000")
+asiento1.set_fecha("05/05")
+asiento2.add_cuenta("1.04","1","1500")
+asiento2.add_cuenta("1.05","1","3000")
+asiento2.add_cuenta("1.06","1","2500")
+asiento2.add_cuenta("1.01","2","5000")
+asiento2.set_fecha("08/05")
+asiento2.set_segun("3")
+asiento3.add_cuenta("1.07","1","50")
+asiento3.add_cuenta("1.08","1","1200")
+asiento3.add_cuenta("1.09","1","5050")
+asiento3.add_cuenta("1.10","2","2010")
+asiento3.set_fecha("10/05")
+asiento3.set_segun("4")
+libro.add_asiento(asiento1)
+libro.add_asiento(asiento2)
+libro.add_asiento(asiento3)
+display(libro)
 
 """
 
