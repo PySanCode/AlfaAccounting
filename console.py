@@ -1,60 +1,60 @@
-activo = {
-"1.01": """BANCO "X" Cuenta Corriente""",
-"1.02": "Caja",
-"1.03": "Deudores por ventas",
-"1.04": "Documentos a cobrar",
-"1.05": "Equipos de computacion",
-"1.06": "Inmuebles",
-"1.07": "Instalaciones",
-"1.08": "Maquinarias",
-"1.09": "Materias primas",
-"1.10": "Mercaderias",
-"1.11": "Muebles y utiles",
-"1.12": "Rodados",
-"1.13": """Tarjetas de credito "XX" """,
-"1.14": "Valores a depositar"
-}
+#activo = {
+#"1.01": """BANCO "X" Cuenta Corriente""",
+#"1.02": "Caja",
+#"1.03": "Deudores por ventas",
+#"1.04": "Documentos a cobrar",
+#"1.05": "Equipos de computacion",
+#"1.06": "Inmuebles",
+#"1.07": "Instalaciones",
+#"1.08": "Maquinarias",
+#"1.09": "Materias primas",
+#"1.10": "Mercaderias",
+#"1.11": "Muebles y utiles",
+#"1.12": "Rodados",
+#"1.13": """Tarjetas de credito "XX" """,
+#"1.14": "Valores a depositar
+#}
 
-pasivo = {
-    "2.01": "Acreedores varios",
-    "2.02": "Documentos a pagar",
-    "2.03": "Proovedores",
-    "2.04": "Valores diferidos a pagar"
-}
-
-patrimonio_neto = {
-    "3.01": "Capital"
-}
-
-resultado_negativo = {
-    "4.01": "Alquileres perdidos",
-    "4.02": "Comisiones perdidas",
-    "4.03": "Costo de mercaderias vendidas",
-    "4.04": "Descuentos cedidos",
-    "4.05": "Fletes y acarreos",
-    "4.06": "Gastos generales",
-    "4.07": "Impuestos",
-    "4.08": "Intereses perdidos",
-    "4.09": "Publicidad perdida",
-    "4.10": "Seguros",
-    "4.11": "Sueldos y jornales"
-}
-
-resultado_positivo = {
-    "5.01": "Alquileres ganados",
-    "5.02": "Comisiones ganadas",
-    "5.03": "Descuentos obtenidos",
-    "5.04": "Intereses ganados",
-    "5.05": "Ventas"
-}
-
-valid = [
-    "1.01","1.02","1.03","1.04","1.05","1.06","1.07","1.08","1.09","1.10","1.11","1.12","1.13","1.14",
-    "2.01","2.02","2.03","2.04",
-    "3.01",
-    "4.01","4.02","4.03","4.04","4.05","4.06","4.07","4.08","4.09","4.10","4.11",
-    "5.01","5.02","5.03","5.04","5.05"
-]
+#pasivo = {
+#    "2.01": "Acreedores varios",
+#    "2.02": "Documentos a pagar",
+#    "2.03": "Proovedores",
+#    "2.04": "Valores diferidos a pagar"
+#}
+#
+#patrimonio_neto = {
+#    "3.01": "Capital"
+#}
+#
+#resultado_negativo = {
+#    "4.01": "Alquileres perdidos",
+#    "4.02": "Comisiones perdidas",
+#    "4.03": "Costo de mercaderias vendidas",
+#    "4.04": "Descuentos cedidos",
+#    "4.05": "Fletes y acarreos",
+#    "4.06": "Gastos generales",
+#    "4.07": "Impuestos",
+#    "4.08": "Intereses perdidos",
+#    "4.09": "Publicidad perdida",
+#    "4.10": "Seguros",
+#    "4.11": "Sueldos y jornales"
+#}
+#
+#resultado_positivo = {
+#    "5.01": "Alquileres ganados",
+#    "5.02": "Comisiones ganadas",
+#    "5.03": "Descuentos obtenidos",
+#    "5.04": "Intereses ganados",
+#    "5.05": "Ventas"
+#}
+#
+#valid = [
+#    "1.01","1.02","1.03","1.04","1.05","1.06","1.07","1.08","1.09","1.10","1.11","1.12","1.13","1.14",
+#    "2.01","2.02","2.03","2.04",
+#    "3.01",
+#    "4.01","4.02","4.03","4.04","4.05","4.06","4.07","4.08","4.09","4.10","4.11",
+#    "5.01","5.02","5.03","5.04","5.05"
+#]
 
 segun_dict = {
     "0": "Inventario Inicial",
@@ -173,6 +173,78 @@ class Libro_Diario():
     def add_asiento(self, asiento):
 
         self.asientos.append(asiento)
+
+def load_plan():
+    global activo
+    global pasivo
+    global patrimonio_neto
+    global resultado_negativo
+    global resultado_positivo
+    global valid
+
+    activo = {}
+    pasivo = {}
+    patrimonio_neto = {}
+    resultado_negativo = {}
+    resultado_positivo = {}
+    valid = {}
+
+    with open("plan_de_cuentas.txt", "r") as file:
+
+        lines = file.read().splitlines()
+
+        for line in lines:
+            if line == "":
+                modo_activo = False
+                modo_pasivo = False
+                modo_pn = False
+                modo_rn = False
+                modo_rp = False
+                continue
+
+            if line == "Activo":
+                modo_activo = True
+                continue
+
+            elif line == "Pasivo":
+                modo_pasivo = True
+                continue
+
+            elif line == "Patrimonio Neto":
+                modo_pn = True
+                continue
+
+            elif line == "Resultado Negativo":
+                modo_rn = True
+                continue
+
+            elif line == "Resultado Positivo":
+                modo_rp = True
+                continue
+
+            line = line.split(":")
+
+            if modo_activo:
+                activo.update({line[0]: line[1]})
+                valid.update({line[0]: line[1]})
+
+            elif modo_pasivo:
+                pasivo.update({line[0]: line[1]})
+                valid.update({line[0]: line[1]})
+
+            elif modo_pn:
+                patrimonio_neto.update({line[0]: line[1]})
+                valid.update({line[0]: line[1]})
+
+            elif modo_rn:
+                resultado_negativo.update({line[0]: line[1]})
+                valid.update({line[0]: line[1]})
+
+            elif modo_rp:
+                resultado_positivo.update({line[0]: line[1]})
+                valid.update({line[0]: line[1]})
+
+    pass
 
 def new():
     libro = Libro_Diario()
@@ -415,24 +487,34 @@ def display(libro):
               "| ", "", " " * (10),
               "| ", "", " " * (10), "|")
 
-print("AlfaBOOK Edicion Consola\n"
-      "Version 1.0")
+def main():
+    print("AlfaBOOK Edicion Consola\n"
+          "Version 1.0")
+    load_plan()
 
-while True:
+    while True:
 
-    start = input(
-    "Que desea hacer? \n"
-    "1 = Nuevo archivo \n"
-    "2 = Cargar archivo\n"
-    "> "
-    )
-    if start == "1" or start == "2": break
+        start = input(
+        "Que desea hacer? \n"
+        "1 = Nuevo archivo \n"
+        "2 = Cargar archivo\n"
+        "> "
+        )
+        while start != "1" and start != "2":
+            start = input(
+                "Que desea hacer? \n"
+                "1 = Nuevo archivo \n"
+                "2 = Cargar archivo\n"
+                "> "
+            )
 
-if start == "1":
-    new()
+        if start == "1":
+            new()
 
-if start == "2":
-    load_previous()
+        if start == "2":
+            load_previous()
+
+main()
 
 # libro = Libro_Diario()
 # asiento1 = Asiento()
