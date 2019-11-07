@@ -441,16 +441,14 @@ def new():
 
             skip = True
 
-#        if continuar == "1":
-
-            ################## ACA IBA LO QUE ESTA AL FINAL DEL ARCHIVO ################
-
         if continuar == "5":
             libro.add_asiento(asiento)
             asiento.add_cuenta(cuenta, debe_o_haber, valor)
             break
 
     display_libro_diario(libro)
+    display_libro_mayor(libro)
+    display_balance(libro)
 
 def display_libro_diario(libro):
 
@@ -524,11 +522,6 @@ def display_libro_diario(libro):
 def display_libro_mayor(libro):
 
     for cuenta in list(cuentas_list.values()):
-
-        #print(cuenta.name, "\ndebe:", cuenta.debe)
-        #print("haber:", cuenta.haber)
-        #print("tipo:", cuenta.saldo_tipo)
-        #print("valor:", cuenta.saldo_valor, "\n")
 
         if cuenta.debe == 0 and cuenta.haber == 0: continue
 
@@ -646,11 +639,95 @@ def display_libro_mayor(libro):
                 sep=""
             )
 
+def display_balance(libro):
+
+    debe_total = 0
+    haber_total = 0
+    deudor_total = 0
+    acreedor_total = 0
+
+    print(
+        "| ", "N°", " " * (5 - len("N°")),
+        "| ", "Cuenta", " " * (40 - len("Cuenta")),
+        "| ", "          Sumas", " " * (25 - len(("          Sumas"))),
+        "| ", "         Saldos", " " * (25 - len("         Saldos")), "|"
+    )
+
+    print(
+        "| ", "", " " * (5 - len("")),
+        "| ", "", " " * (40 - len("")),
+        "| ", "Debe", " " * (10 - len(("Debe"))),
+        "| ", "Haber", " " * (10 - len("Haber")),
+        "| ", "Deudor", " " * (10 - len(("Deudor"))),
+        "| ", "Acreedor", " " * (10 - len("Acreedor")), "|"
+    )
+
+    print("|", "-" * 112, "|")
+
+    for cuenta in list(cuentas_list.values()):
+
+        if cuenta.debe == 0 and cuenta.haber == 0: continue
+
+        debe_total += cuenta.debe
+        haber_total += cuenta.haber
+
+        if cuenta.debe == 0: cuenta.debe = "    --    "
+        elif cuenta.haber == 0: cuenta.haber = "    --    "
+
+        if cuenta.saldo_tipo == "Saldo Deudor":
+
+            deudor_total += cuenta.saldo_valor
+
+            print(
+                "| ", cuenta.number, " " * (5 - len(cuenta.number)),
+                "| ", cuenta.name, " " * (40 - len(cuenta.name)),
+                "| ", cuenta.debe, " " * (10 - len(str(cuenta.debe))),
+                "| ", cuenta.haber, " " * (10 - len(str(cuenta.haber))),
+                "| ", str(cuenta.saldo_valor), " " * (10 - len(str(cuenta.saldo_valor))),
+                "| ", "    --    ", " " * (10 - len("    --    ")), "|"
+            )
+
+        elif cuenta.saldo_tipo == "Saldo Acreedor":
+
+            acreedor_total += cuenta.saldo_valor
+
+            print(
+                "| ", cuenta.number, " " * (5 - len(cuenta.number)),
+                "| ", cuenta.name, " " * (40 - len(cuenta.name)),
+                "| ", cuenta.debe, " " * (10 - len(str(cuenta.debe))),
+                "| ", cuenta.haber, " " * (10 - len(str(cuenta.haber))),
+                "| ", "    --    ", " " * (10 - len("    --    ")),
+                "| ", str(cuenta.saldo_valor), " " * (10 - len(str(cuenta.saldo_valor))), "|"
+            )
+
+        elif cuenta.saldo_tipo == "Cuenta Saldada":
+
+            print(
+                "| ", cuenta.number, " " * (5 - len(cuenta.number)),
+                "| ", cuenta.name, " " * (40 - len(cuenta.name)),
+                "| ", cuenta.debe, " " * (10 - len(str(cuenta.debe))),
+                "| ", cuenta.haber, " " * (10 - len(str(cuenta.haber))),
+                "| ", "    --    ", " " * (10 - len("    --    ")),
+                "| ", "    --    ", " " * (10 - len("    --    ")), "|"
+            )
 
 
 
+    print("|", "-" * 112, "|")
+
+    print(
+        "| ", "", " " * (5),
+        "| ", "Total", " " * (40 - len("Total")),
+        "| ", debe_total, " " * (10 - len(str(debe_total))),
+        "| ", haber_total, " " * (10 - len(str(haber_total))),
+        "| ", deudor_total, " " * (10 - len(str(deudor_total))),
+        "| ", acreedor_total, " " * (10 - len(str(acreedor_total))), "|"
+    )
+
+    print("|", "-" * 112, "|")
 
 def main():
+
     print("AlfaBOOK Edicion Consola\n",
           __version__)
     load_plan()
@@ -677,10 +754,7 @@ def main():
         if start == "2":
             load_previous()
 
-
 #main()
-
-#raise("TENES QUE PONER EL NUMERO DE LA CUENTA JUNTO CON EL LIBRO DIARIO Y TAMBIEN HACER LOS OTROS DOS LIBROS DE UNA VEZ")
 
 load_plan()
 libro = Libro_Diario()
@@ -736,14 +810,11 @@ libro.add_asiento(asiento5)
 libro.add_asiento(asiento6)
 display_libro_diario(libro)
 display_libro_mayor(libro)
-
-#for cuenta in list(cuentas_list.values()):
-#
+#for cuenta in cuentas_list.values():
 #    cuenta.calc_totals()
-#    print(cuenta.name, "\ndebe:", cuenta.debe)
-#    print("haber:", cuenta.haber)
-#    print("tipo:", cuenta.saldo_tipo)
-#    print("valor:", cuenta.saldo_valor, "\n")
+display_balance(libro)
+
+"emi putoooooooooooooooooooooooooooooooooooooooooooooooooooo"
 
 """
 
@@ -785,20 +856,6 @@ display_libro_mayor(libro)
 """
 
 """
- |     (Nombre)     |
- |------------------|
- | Debe   |   Haber |
- |------------------|
- |1:2000  | 3:5000  |
- |        |         |
- |        |         |
- |------------------|
- |2000    | 5000    |
- |------------------|
- |Saldo A: 5000     |
-"""
-
-"""
 | Caja(1.02)                              |
 |-----------------------------------------|
 | Debe               | Haber              |
@@ -817,126 +874,23 @@ display_libro_mayor(libro)
 """
 
 """
-    while True:
 
-        cuenta = input("\nCuenta:\n> ")
-        while cuenta not in valid:
-            cuenta = input("\nCuenta:\n> ")
+|  N°     |  Cuenta                                    |            Sumas            |           Saldos            |
+|         |                                            |  Debe        |  Haber       |  Deudor      |  Acreedor    |
+| ---------------------------------------------------------------------------------------------------------------- |
+|  1.01   |  BANCO "Comafi" Cta. Cte.                  |  25000       |  600         |  24400       |      --      |
+|  1.02   |  Caja                                      |  45000       |  16500       |  28500       |      --      |
+|  1.10   |  Mercaderias                               |  21700       |  3500        |  18200       |      --      |
+|  1.12   |  Rodados                                   |  40000       |      --      |  40000       |      --      |
+|  1.14   |  Valores a depositar                       |  3325        |  3325        |      --      |      --      |
+|  1.15   |  BANCO "Zurich" Cta. Cte.                  |  13325       |      --      |  13325       |      --      |
+|  2.02   |  Documentos a pagar                        |  6500        |  12364       |      --      |  5864        |
+|  4.01   |  Alquileres perdidos                       |      --      |  119500      |      --      |  119500      |
+|  4.04   |  Descuentos cedidos                        |  175         |      --      |  175         |      --      |
+|  4.06   |  Gastos generales                          |  600         |      --      |  600         |      --      |
+|  4.08   |  Intereses perdidos                        |  164         |      --      |  164         |      --      |
+| ---------------------------------------------------------------------------------------------------------------- |
+|         |  Total                                     |  155789      |  155789      |  125364      |  125364      |
+| ---------------------------------------------------------------------------------------------------------------- |
 
-        debe_o_haber = input(
-            "\n¿Debe o haber?"
-            "\n1 = Debe"
-            "\n2 = Haber"
-            "\n> "
-        )
-        while debe_o_haber != "1" and debe_o_haber != "2":
-            debe_o_haber = input(
-                "\n¿Debe o haber?"
-                "\n1 = Debe"
-                "\n2 = Haber"
-                "\n> "
-            )
-
-        valor = input("\nValor: \n> ")
-        try:
-            valor = int(valor)
-        except:
-            pass
-        while type(valor) != int:
-            valor = input("\nValor:\n> ")
-            try: valor = int(valor)
-            except: pass
-
-        continuar = input(
-            "\n¿Que desea hacer?"
-            "\n1 = Continuar otra cuenta"
-            "\n2 = Continuar con el libro"
-            "\n3 = Volver a editar cuenta"
-            "\n4 = Editar solo un elemento"
-            "\n5 = Parar"
-            "\n> "
-        )
-
-        ########################## EDITAR UN ELEMENTO DE LA NUEVA CUENTA ############################
-
-        if continuar == "4":
-
-            editar = input(
-            "\n¿Que desea editar?"
-            "\n1 = Cuenta"
-            "\n2 = Debe o haber"
-            "\n3 = Valor"
-            "\n4 = Nada"
-            "\n> "
-            )
-
-            while editar != "1" and editar != "2" and editar != "3" and editar != "4":
-
-                editar = input(
-                    "\n¿Que desea editar?"
-                    "\n1 = Cuenta"
-                    "\n2 = Debe o haber"
-                    "\n3 = Valor"
-                    "\n4 = Nada"
-                    "\n> "
-                )
-
-
-            ################# EDITAR NUMERO DE CUENTA ##############################################
-            if editar == "1":
-
-                cuenta = input("\nCuenta:\n> ")
-                while cuenta not in valid:
-                    cuenta = input("\nCuenta:\n> ")
-                    if cuenta in valid and input("\n¿Seguro?\n1 = Si\n2 = No\n> ") == "1": break
-                    else: continue
-            ################# EDITAR NUMERO DE CUENTA ##############################################
-
-
-
-            ################################## EDITAR DEBE / HABER #########################################################
-            if editar == "2":
-
-                debe_o_haber = input(
-                    "\n¿Debe o haber?"
-                    "\n1 = Debe"
-                    "\n2 = Haber"
-                    "\n> "
-                )
-
-                while debe_o_haber != "1" and debe_o_haber != "2":
-
-                    debe_o_haber = input(
-                        "\n¿Debe o haber?"
-                        "\n1 = Debe"
-                        "\n2 = Haber"
-                        "\n> "
-                    )
-                    if debe_o_haber == "1" or debe_o_haber == "2" and input("\n¿Seguro?\n1 = Si\n2 = No\n> ") == "1": break
-                    else: continue
-            ################################## EDITAR DEBE / HABER #########################################################
-
-
-
-            ############################ EDITAR VALOR ##########################
-            if editar == "3":
-                while type(valor) != int:
-                    valor = input("\nValor:\n> ")
-                    if input("\n¿Seguro?\n1 = Si\n2 = No\n> ") == "1": break
-                    else: continue
-            ############################ EDITAR VALOR ##########################
-
-
-
-            if editar == "4": pass # NO EDITAR NADA
-        ########################## EDITAR UN ELEMENTO DE LA NUEVA CUENTA ############################
-
-
-
-        if continuar == "3": continue
-        asiento.add_cuenta(cuenta,debe_o_haber,valor)
-
-        if continuar == "2" or continuar == "5": break
-
-##################################### CONTINUAR CON OTRA CUENTA ###########################################
 """

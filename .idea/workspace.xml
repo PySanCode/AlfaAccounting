@@ -281,7 +281,21 @@
       <option name="project" value="LOCAL" />
       <updated>1573083604376</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="LIBRO MAYOR FUNCIONANDO 100% REAL NO FAKE WOOOOOo">
+      <created>1573085177655</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1573085177655</updated>
+    </task>
+    <task id="LOCAL-00023" summary="LIBRO MAYOR FUNCIONANDO 100% REAL NO FAKE WOOOOOo">
+      <created>1573085276297</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1573085276297</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TodoView">
@@ -327,7 +341,8 @@
     <MESSAGE value="refactor casi casi working" />
     <MESSAGE value="load_plan funcionando pero no anda el display para cuentas pasivo no se porque" />
     <MESSAGE value="casi terminando libro mayor" />
-    <option name="LAST_COMMIT_MESSAGE" value="casi terminando libro mayor" />
+    <MESSAGE value="LIBRO MAYOR FUNCIONANDO 100% REAL NO FAKE WOOOOOo" />
+    <option name="LAST_COMMIT_MESSAGE" value="LIBRO MAYOR FUNCIONANDO 100% REAL NO FAKE WOOOOOo" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
