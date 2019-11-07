@@ -212,7 +212,7 @@ class Cuenta():
 
                 self.debe += use.get("valor")
 
-            elif use.get("debe_o_haber" == "2"):
+            elif use.get("debe_o_haber") == "2":
 
                 self.haber += use.get("valor")
 
@@ -583,8 +583,6 @@ def display_libro_mayor(libro):
 
     for cuenta in list(cuentas_list.values()):
 
-        cuenta.calc_totals()
-
         #print(cuenta.name, "\ndebe:", cuenta.debe)
         #print("haber:", cuenta.haber)
         #print("tipo:", cuenta.saldo_tipo)
@@ -709,17 +707,21 @@ def display_libro_mayor(libro):
 
 
 """
- |     (Nombre)     |
- |------------------|
- |  Debe  |  Haber  |
- |------------------|
- |1:2000  | 3:5000  |
- |        |         |
- |        |         |
- |------------------|
- |2000    | 5000    |
- |------------------|
- |Saldo A: 5000     |
+| Caja(1.02)                              |
+|-----------------------------------------|
+| Debe               | Haber              |
+|-----------------------------------------|
+| 1: 45000           | 5: 6500            |
+|                    | 6: 10000           |
+|                    |                    |
+|                    |                    |
+|                    |                    |
+|                    |                    |
+|-----------------------------------------|
+| 45000              | 16500              |
+|-----------------------------------------|
+| Saldo Deudor: 28500                     |
+|-----------------------------------------|
 """
 
 def main():
