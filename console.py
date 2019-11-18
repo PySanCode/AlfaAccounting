@@ -1,4 +1,9 @@
+__author__ = "Santiago Moreno"
+__copyright__ = "Copyright (C) 2019 Santiago Moreno"
+__license__ = "Todos los derechos reservados"
 __version__ = "1.0"
+
+import pickle
 
 segun_dict = {
     "0": "Segun Inventario Inicial",
@@ -252,6 +257,7 @@ def load_plan():
     pass
 
 def new():
+
     libro = Libro_Diario()
     first = True
     modo_asiento = True
@@ -369,13 +375,10 @@ def new():
             libro.add_asiento(asiento)
             continue
 
-        if continuar == "3":
-            modo_asiento = False
-            continue
+        if continuar == "3": continue
 
         if continuar == "4":
 
-            modo_asiento = False
             editar = input(
                 "\n¿Que desea editar?"
                 "\n1 = Cuenta"
@@ -444,11 +447,34 @@ def new():
         if continuar == "5":
             libro.add_asiento(asiento)
             asiento.add_cuenta(cuenta, debe_o_haber, valor)
+            save(libro)
             break
 
     display_libro_diario(libro)
     display_libro_mayor(libro)
     display_balance(libro)
+
+def save(libro):
+
+    i = 1
+
+    while True:
+
+        try:
+
+            file = open("saved\libro{}.pkl".format(str(i)), "xb")
+            pickle.dump(libro, file)
+            file.close()
+            break
+
+        except FileExistsError:
+
+            i += 1
+            continue
+
+def load():
+
+    pass
 
 def display_libro_diario(libro):
 
@@ -647,7 +673,7 @@ def display_balance(libro):
     acreedor_total = 0
 
     print(
-        "| ", "N°", " " * (5 - len("N°")),
+        "\n\n| ", "N°", " " * (5 - len("N°")),
         "| ", "Cuenta", " " * (40 - len("Cuenta")),
         "| ", "          Sumas", " " * (25 - len(("          Sumas"))),
         "| ", "         Saldos", " " * (25 - len("         Saldos")), "|"
@@ -752,69 +778,65 @@ def main():
             new()
 
         if start == "2":
-            load_previous()
+            load()
 
-#main()
+main()
 
-load_plan()
-libro = Libro_Diario()
-asiento1 = Asiento(1)
-asiento2 = Asiento(2)
-asiento3 = Asiento(3)
-asiento4 = Asiento(4)
-asiento5 = Asiento(5)
-asiento6 = Asiento(6)
-
-asiento1.add_cuenta("1.02","1","45000")
-asiento1.add_cuenta("1.10","1","16000")
-asiento1.add_cuenta("1.12","1","40000")
-asiento1.add_cuenta("1.01","1","25000")
-asiento1.add_cuenta("2.02","2","6500")
-asiento1.add_cuenta("4.01","2","119500")
-asiento1.set_fecha("01/11")
-asiento1.set_segun("0")
-
-asiento2.add_cuenta("1.14","1","3325")
-asiento2.add_cuenta("4.04","1","175")
-asiento2.add_cuenta("1.10","2","3500")
-asiento2.set_fecha("03/11")
-asiento2.set_segun("2")
-
-asiento3.add_cuenta("4.06","1","600")
-asiento3.add_cuenta("1.01","2","600")
-asiento3.set_fecha("03/11")
-asiento3.set_segun("1")
-
-asiento4.add_cuenta("1.10","1","5700")
-asiento4.add_cuenta("4.08","1","164")
-asiento4.add_cuenta("2.02","2","5864")
-asiento4.set_fecha("04/11")
-asiento4.set_segun("1")
-
-asiento5.add_cuenta("2.02","1","6500")
-asiento5.add_cuenta("1.02","2","6500")
-asiento5.set_fecha("07/11")
-asiento5.set_segun("3")
-
-asiento6.add_cuenta("1.15","1","13325")
-asiento6.add_cuenta("1.02","2","10000")
-asiento6.add_cuenta("1.14","2","3325")
-asiento6.set_fecha("08/11")
-asiento6.set_segun("5")
-
-libro.add_asiento(asiento1)
-libro.add_asiento(asiento2)
-libro.add_asiento(asiento3)
-libro.add_asiento(asiento4)
-libro.add_asiento(asiento5)
-libro.add_asiento(asiento6)
-display_libro_diario(libro)
-display_libro_mayor(libro)
-#for cuenta in cuentas_list.values():
-#    cuenta.calc_totals()
-display_balance(libro)
-
-"emi putoooooooooooooooooooooooooooooooooooooooooooooooooooo"
+#load_plan()
+#libro = Libro_Diario()
+#asiento1 = Asiento(1)
+#asiento2 = Asiento(2)
+#asiento3 = Asiento(3)
+#asiento4 = Asiento(4)
+#asiento5 = Asiento(5)
+#asiento6 = Asiento(6)
+#
+#asiento1.set_fecha("01/11")
+#asiento1.set_segun("0")
+#asiento1.add_cuenta("1.02","1","45000")
+#asiento1.add_cuenta("1.10","1","16000")
+#asiento1.add_cuenta("1.12","1","40000")
+#asiento1.add_cuenta("1.01","1","25000")
+#asiento1.add_cuenta("2.02","2","6500")
+#asiento1.add_cuenta("4.01","2","119500")
+#
+#asiento2.set_fecha("03/11")
+#asiento2.set_segun("2")
+#asiento2.add_cuenta("1.14","1","3325")
+#asiento2.add_cuenta("4.04","1","175")
+#asiento2.add_cuenta("1.10","2","3500")
+#
+#asiento3.set_fecha("03/11")
+#asiento3.set_segun("1")
+#asiento3.add_cuenta("4.06","1","600")
+#asiento3.add_cuenta("1.01","2","600")
+#
+#asiento4.set_fecha("04/11")
+#asiento4.set_segun("1")
+#asiento4.add_cuenta("1.10","1","5700")
+#asiento4.add_cuenta("4.08","1","164")
+#asiento4.add_cuenta("2.02","2","5864")
+#
+#asiento5.set_fecha("07/11")
+#asiento5.set_segun("3")
+#asiento5.add_cuenta("2.02","1","6500")
+#asiento5.add_cuenta("1.02","2","6500")
+#
+#asiento6.set_fecha("08/11")
+#asiento6.set_segun("5")
+#asiento6.add_cuenta("1.15","1","13325")
+#asiento6.add_cuenta("1.02","2","10000")
+#asiento6.add_cuenta("1.14","2","3325")
+#
+#libro.add_asiento(asiento1)
+#libro.add_asiento(asiento2)
+#libro.add_asiento(asiento3)
+#libro.add_asiento(asiento4)
+#libro.add_asiento(asiento5)
+#libro.add_asiento(asiento6)
+#display_libro_diario(libro)
+#display_libro_mayor(libro)
+#display_balance(libro)
 
 """
 

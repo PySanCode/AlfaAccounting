@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b3360a42-d39b-4e47-81af-bf5a85395041" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="b3360a42-d39b-4e47-81af-bf5a85395041" name="Default Changelist" comment="BALANCE FUNCIONANDO 200% REAL SI FAKE">
+      <change beforePath="$PROJECT_DIR$/.idea/AlfaBOOK.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/console.py" beforeDir="false" afterPath="$PROJECT_DIR$/console.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sortscript.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,8 +29,6 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/sortscript.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/main.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/console.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectId" id="1TAbWWxYEui4FDKt4L6shwDerqg" />
@@ -52,6 +56,27 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.console">
+    <configuration name="build" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="AlfaBOOK" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/build.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="console" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="AlfaBOOK" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -118,6 +143,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.console" />
+        <item itemvalue="Python.build" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.sortscript" />
       </list>
@@ -295,7 +321,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573085276297</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="BALANCE FUNCIONANDO 200% REAL SI FAKE">
+      <created>1573093892848</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1573093892848</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TodoView">
@@ -342,7 +375,8 @@
     <MESSAGE value="load_plan funcionando pero no anda el display para cuentas pasivo no se porque" />
     <MESSAGE value="casi terminando libro mayor" />
     <MESSAGE value="LIBRO MAYOR FUNCIONANDO 100% REAL NO FAKE WOOOOOo" />
-    <option name="LAST_COMMIT_MESSAGE" value="LIBRO MAYOR FUNCIONANDO 100% REAL NO FAKE WOOOOOo" />
+    <MESSAGE value="BALANCE FUNCIONANDO 200% REAL SI FAKE" />
+    <option name="LAST_COMMIT_MESSAGE" value="BALANCE FUNCIONANDO 200% REAL SI FAKE" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
