@@ -3,7 +3,7 @@ __copyright__ = "Copyright (C) 2019 Santiago Moreno"
 __license__ = "Todos los derechos reservados"
 __version__ = "1.0"
 
-import pickle
+import pickle, os
 
 segun_dict = {
     "0": "Segun Inventario Inicial",
@@ -456,25 +456,67 @@ def new():
 
 def save(libro):
 
-    i = 1
-
     while True:
+
+        nombre = input("\nNombre del archivo: ")
 
         try:
 
-            file = open("saved\libro{}.pkl".format(str(i)), "xb")
+            file = open("saved\{}.pkl".format(str(nombre)), "xb")
             pickle.dump(libro, file)
             file.close()
             break
 
         except FileExistsError:
 
-            i += 1
             continue
 
 def load():
 
-    pass
+    try:
+
+        for carpeta, carpetas, files in os.walk("saved"):
+
+            archivos = files
+
+    except:
+
+        pass
+
+    print("¿Cual archivo desea cargar?")
+
+    i = 1
+
+    for file in archivos:
+
+        print("{} = {}".format(i, file))
+        i += 1
+
+    to_load = int(input("> "))
+
+    while to_load < 1 or to_load > len(archivos):
+
+        print("¿Cual archivo desea cargar?")
+
+        i = 1
+
+        for file in archivos:
+            print("{} = {}".format(i, file))
+            i += 1
+
+        to_load = int(input("> "))
+
+    with open("saved/{}".format(archivos[to_load - 1]), "rb") as archivo:
+
+        libro = pickle.load(archivo)
+
+    for asiento in libro.asientos:
+
+        print(asiento.cuentas)
+
+    display_libro_diario(libro)
+    display_libro_mayor(libro)
+    display_balance(libro)
 
 def display_libro_diario(libro):
 
