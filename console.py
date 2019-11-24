@@ -3,7 +3,7 @@ __copyright__ = "Copyright (C) 2019 Santiago Moreno"
 __license__ = "Todos los derechos reservados"
 __version__ = "1.0"
 
-import pickle, os
+import os
 
 segun_dict = {
     "0": "Segun Inventario Inicial",
@@ -178,6 +178,7 @@ class Cuenta():
             self.saldo_tipo = "Cuenta Saldada"
 
 def load_plan():
+
     global activo
     global pasivo
     global patrimonio_neto
@@ -269,7 +270,7 @@ def new():
             if first: asiento = Asiento(len(libro.asientos) + 1, first=True)
             else: asiento = Asiento(len(libro.asientos) + 1)
 
-            if first: fecha = input("\nFecha:\n> ")
+            fecha = input("\nFecha:\n> ")
             asiento.set_fecha(fecha)
 
         if not skip:
@@ -372,6 +373,7 @@ def new():
 
         if continuar == "2":
             modo_asiento = True
+            asiento.add_cuenta(cuenta, debe_o_haber, valor)
             libro.add_asiento(asiento)
             continue
 
@@ -462,14 +464,27 @@ def save(libro):
 
         try:
 
-            file = open("saved\{}.pkl".format(str(nombre)), "xb")
-            pickle.dump(libro, file)
+            file = open("saved\{}.abk".format(str(nombre)), "x")
+
+            for asiento in libro.asientos:
+
+                if not asiento.first: file.write("Asiento{}\n".format(asiento.number))
+
+                file.write("Fecha:{}\n".format(asiento.fecha))
+
+                for cuenta in asiento.cuentas:
+
+                    file.write("{},{},{}\n".format(cuenta.get("cuenta"), cuenta.get("debe_o_haber"), cuenta.get("valor")))
+
+                file.write("Segun:{}".format(asiento.segun))
+
             file.close()
+
             break
 
         except FileExistsError:
 
-            continue
+            print("El archivo ya existe, elija otro nombre")
 
 def load():
 
@@ -506,13 +521,33 @@ def load():
 
         to_load = int(input("> "))
 
-    with open("saved/{}".format(archivos[to_load - 1]), "rb") as archivo:
+    with open("saved/{}".format(archivos[to_load - 1]), "r") as archivo:
 
-        libro = pickle.load(archivo)
+        libro = Libro_Diario()
 
-    for asiento in libro.asientos:
+        asiento = Asiento(1)
 
-        print(asiento.cuentas)
+        for linea in archivo.read().splitlines():
+
+            if linea[:7] == "Asiento":
+
+                libro.add_asiento(asiento)
+                asiento = Asiento(linea[7:])
+
+            elif linea[:6] == "Fecha:":
+
+                asiento.set_fecha(linea[6:])
+
+            elif linea[:6] == "Segun:":
+
+                asiento.set_segun(linea[6:])
+
+            else:
+
+                cuenta, debe_o_haber, valor = linea.split(",")
+                asiento.add_cuenta(cuenta, debe_o_haber, valor)
+
+        libro.add_asiento(asiento)
 
     display_libro_diario(libro)
     display_libro_mayor(libro)
