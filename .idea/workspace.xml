@@ -203,7 +203,9 @@
       <workItem from="1574456746193" duration="71000" />
       <workItem from="1574457133292" duration="10133000" />
       <workItem from="1574559847184" duration="5086000" />
-      <workItem from="1574613189554" duration="6478000" />
+      <workItem from="1574613189554" duration="8420000" />
+      <workItem from="1575140470837" duration="1183000" />
+      <workItem from="1575918092288" duration="4168000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1571081635333</created>
@@ -387,7 +389,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574540124438</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="SAVE AND LOAD WORKING BOYYY">
+      <created>1574638030663</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1574638030663</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TodoView">
@@ -440,18 +449,10 @@
     <MESSAGE value="BALANCE FUNCIONANDO 200% REAL SI FAKE" />
     <MESSAGE value="Faltan algunas funciones pero la mayoria funcionando" />
     <MESSAGE value="Save and load kinda working" />
-    <option name="LAST_COMMIT_MESSAGE" value="Save and load kinda working" />
+    <MESSAGE value="SAVE AND LOAD WORKING BOYYY" />
+    <option name="LAST_COMMIT_MESSAGE" value="SAVE AND LOAD WORKING BOYYY" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/console.py</url>
-          <line>626</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="asiento1.segun_display" />
@@ -469,6 +470,6 @@
     <SUITE FILE_PATH="coverage/AlfaAccounting$sortscript.coverage" NAME="sortscript Coverage Results" MODIFIED="1574100846210" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/AlfaAccounting$build.coverage" NAME="build Coverage Results" MODIFIED="1574101049367" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/AlfaAccounting$settings.coverage" NAME="settings Coverage Results" MODIFIED="1574100849685" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../django_test/django_test" />
-    <SUITE FILE_PATH="coverage/AlfaAccounting$console.coverage" NAME="console Coverage Results" MODIFIED="1574637972828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AlfaAccounting$console.coverage" NAME="console Coverage Results" MODIFIED="1575999940927" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -468,7 +468,7 @@ def save(libro):
 
             for asiento in libro.asientos:
 
-                if not asiento.first: file.write("Asiento{}\n".format(asiento.number))
+                file.write("Asiento{}\n".format(asiento.number))
 
                 file.write("Fecha:{}\n".format(asiento.fecha))
 
@@ -476,7 +476,7 @@ def save(libro):
 
                     file.write("{},{},{}\n".format(cuenta.get("cuenta"), cuenta.get("debe_o_haber"), cuenta.get("valor")))
 
-                file.write("Segun:{}".format(asiento.segun))
+                file.write("Segun:{}\n".format(asiento.segun))
 
             file.close()
 
@@ -487,6 +487,8 @@ def save(libro):
             print("El archivo ya existe, elija otro nombre")
 
 def load():
+
+    load_plan()
 
     try:
 
@@ -507,7 +509,11 @@ def load():
         print("{} = {}".format(i, file))
         i += 1
 
-    to_load = int(input("> "))
+    while True:
+        try:
+            to_load = int(input("> "))
+            break
+        except: pass
 
     while to_load < 1 or to_load > len(archivos):
 
@@ -525,13 +531,10 @@ def load():
 
         libro = Libro_Diario()
 
-        asiento = Asiento(1)
-
         for linea in archivo.read().splitlines():
 
             if linea[:7] == "Asiento":
 
-                libro.add_asiento(asiento)
                 asiento = Asiento(linea[7:])
 
             elif linea[:6] == "Fecha:":
@@ -541,6 +544,7 @@ def load():
             elif linea[:6] == "Segun:":
 
                 asiento.set_segun(linea[6:])
+                libro.add_asiento(asiento)
 
             else:
 
@@ -774,8 +778,10 @@ def display_balance(libro):
         debe_total += cuenta.debe
         haber_total += cuenta.haber
 
-        if cuenta.debe == 0: cuenta.debe = "    --    "
-        elif cuenta.haber == 0: cuenta.haber = "    --    "
+        cuenta.debe_display, cuenta.haber_display = cuenta.debe, cuenta.haber
+
+        if cuenta.debe == 0: cuenta.debe_display = "    --    "
+        if cuenta.haber == 0: cuenta.haber_display = "    --    "
 
         if cuenta.saldo_tipo == "Saldo Deudor":
 
@@ -784,8 +790,8 @@ def display_balance(libro):
             print(
                 "| ", cuenta.number, " " * (5 - len(cuenta.number)),
                 "| ", cuenta.name, " " * (40 - len(cuenta.name)),
-                "| ", cuenta.debe, " " * (10 - len(str(cuenta.debe))),
-                "| ", cuenta.haber, " " * (10 - len(str(cuenta.haber))),
+                "| ", cuenta.debe_display, " " * (10 - len(str(cuenta.debe_display))),
+                "| ", cuenta.haber_display, " " * (10 - len(str(cuenta.haber_display))),
                 "| ", str(cuenta.saldo_valor), " " * (10 - len(str(cuenta.saldo_valor))),
                 "| ", "    --    ", " " * (10 - len("    --    ")), "|"
             )
@@ -797,8 +803,8 @@ def display_balance(libro):
             print(
                 "| ", cuenta.number, " " * (5 - len(cuenta.number)),
                 "| ", cuenta.name, " " * (40 - len(cuenta.name)),
-                "| ", cuenta.debe, " " * (10 - len(str(cuenta.debe))),
-                "| ", cuenta.haber, " " * (10 - len(str(cuenta.haber))),
+                "| ", cuenta.debe_display, " " * (10 - len(str(cuenta.debe_display))),
+                "| ", cuenta.haber_display, " " * (10 - len(str(cuenta.haber_display))),
                 "| ", "    --    ", " " * (10 - len("    --    ")),
                 "| ", str(cuenta.saldo_valor), " " * (10 - len(str(cuenta.saldo_valor))), "|"
             )
@@ -808,8 +814,8 @@ def display_balance(libro):
             print(
                 "| ", cuenta.number, " " * (5 - len(cuenta.number)),
                 "| ", cuenta.name, " " * (40 - len(cuenta.name)),
-                "| ", cuenta.debe, " " * (10 - len(str(cuenta.debe))),
-                "| ", cuenta.haber, " " * (10 - len(str(cuenta.haber))),
+                "| ", cuenta.debe_display, " " * (10 - len(str(cuenta.debe_display))),
+                "| ", cuenta.haber_display, " " * (10 - len(str(cuenta.haber_display))),
                 "| ", "    --    ", " " * (10 - len("    --    ")),
                 "| ", "    --    ", " " * (10 - len("    --    ")), "|"
             )
